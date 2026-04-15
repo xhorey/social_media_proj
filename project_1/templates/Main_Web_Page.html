@@ -1,16 +1,18 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Main Web Page</title>
-    <link rel="stylesheet" href="/Styles/Main_Page.css">
+    <link rel="stylesheet" href="{% static '/Styles/Main_Page.css'%}">
 </head>
 <body>
     <div class="header">
-        <a href="/Main_page/Main_Web_Page.html" ><img id="logo" src="../Assets/Logo.png" alt= "Webpage Logo"></a>
+        <a href="/Main_page/Main_Web_Page.html" ><img id="logo" src="{% static '/Assets/Logo.png'%}" alt= "Webpage Logo"></a>
         <h1 id="MainHeader">Main Web Page</h1>
-        <a href="/Profile_page/Profile.html"><img id="pp" src="../Assets/blank-profile-picture.webp" alt="Profile Icon"></a>
+        <a href="/Profile_page/Profile.html"><img id="pp" src="{% static '/Assets/blank-profile-picture.webp'%}" alt="Profile Icon"></a>
     </div>
     <div class="content">
         <div class="sidebar">

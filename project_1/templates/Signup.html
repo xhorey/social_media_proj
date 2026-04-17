@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{%static '/Styles/Signup.css'%}">
+</head>
+<body>
+    <div class="header">
+        <a href="/Main_page/Main_Web_Page.html" ><img id="logo" src="{% static '/Assets/Logo.png'%}" alt= "Webpage Logo"></a>
+        <h1 id="MainHeader">Sign Up</h1>
+        <h1></h1>
+    </div>
+    <div class="signup">
+        <form>
+            <label for = "username">Username</label>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for = "email">Email</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for = "password">Password</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <label for = "confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+            <button type="submit" id="signupButton">Sign Up</button><br><br>
+        </form>
+    </div>
+</body>
+</html>

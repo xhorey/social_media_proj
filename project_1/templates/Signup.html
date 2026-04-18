@@ -15,7 +15,25 @@
         <h1></h1>
     </div>
     <div class="signup">
-        <form>
+        
+        <div>
+
+            <style>
+                h5{
+                    color: red;
+                }
+            </style>
+
+            {% for message in messages %}
+            <h5>
+                {{message}}
+            </h5>
+            {% endfor %}
+
+        </div>
+
+        <form action="" method="POST">
+            {% csrf_token %}
             <label for = "username">Username</label>
             <input type="text" id="username" name="username" required><br><br>
             <label for = "email">Email</label>

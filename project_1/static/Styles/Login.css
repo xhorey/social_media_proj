@@ -1,13 +1,12 @@
 #NewUser{
-    text-decoration: wavy underline;
     color: black;
 }
 #NewUser:hover{
-    color: rgb(77, 255, 42);
+    color: white;
     transition: color 0.3s ease;
 }
 body{
-    background: linear-gradient(to right, #197171, #2ba4aa);
+    background: linear-gradient(to right, #054e4e, #21c0c9);
 }
 .header{
     display: flex;

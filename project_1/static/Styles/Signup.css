@@ -1,8 +1,7 @@
-#NewUser{
-    text-decoration: wavy underline;
+#loginLink{
     color: black;
 }
-#NewUser:hover{
+#loginLink:hover{
     color: white;
     transition: color 0.3s ease;
 }

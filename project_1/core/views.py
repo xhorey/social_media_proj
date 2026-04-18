@@ -6,7 +6,24 @@ from .models import Profile
 
 
 def signin(request):
-    return render(request, 'login.html')
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = auth.authenticate(username=username, password = password)
+
+        if user is not None:
+            auth.login(request, user)
+            return redirect('/')
+        else:
+            messages.info(request, 'Credentials Invalid')
+            return redirect('signin')
+        
+        
+
+    else:
+        return render(request, 'login.html')
 
 def home(request):
     return render(request, 'Main_Web_Page.html')

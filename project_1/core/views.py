@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.http import HttpResponse
 from .models import Profile
+from django.contrib.auth.decorators import login_required
 
 
 def signin(request):
@@ -25,6 +26,7 @@ def signin(request):
     else:
         return render(request, 'login.html')
 
+@login_required(login_url='signin')
 def home(request):
     return render(request, 'Main_Web_Page.html')
 
@@ -58,3 +60,8 @@ def signup(request):
     else:
 
         return render(request, 'Signup.html')
+
+@login_required(login_url='signin')
+def logout(request):
+    auth.logout(request)
+    return redirect('signin')

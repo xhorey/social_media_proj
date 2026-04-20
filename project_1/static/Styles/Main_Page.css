@@ -27,3 +27,45 @@
     display:grid;
     grid-template-columns: 1fr 5fr;
 }
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Hides the menu and pulls it out of the normal page flow */
+.dropdown-content {
+  display: none;
+  position: absolute;
+}
+
+/* Switches visibility to 'block' when you hover over the container */
+.profile-dropdown:hover .dropdown-content {
+  display: block;
+  background-color: gray;
+}
+.dropdown-link {
+  display: block;
+  padding: 8px;
+  text-decoration: none;
+  color: black;
+}
+.dropdown-link:hover {
+  background-color: lightgray;
+}
+#postImage{
+    width: 50%;
+    height: auto;
+    border-style: groove;
+}
+.Comments{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 1em;
+    background-color: lightgray;
+    padding: 0.5em;
+    border-radius: 5px;
+    margin-bottom: 0.5em;
+    width: 50%;
+    border-style: groove;
+}

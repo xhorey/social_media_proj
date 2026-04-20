@@ -21,11 +21,13 @@
 }
 #MainHeader{
     font-size: 2em;
-    padding-right: 1em;
+    padding-right: 2em;
 }
 .content{
-    display:grid;
-    grid-template-columns: 1fr 5fr;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 .profile-dropdown {
   position: relative;
@@ -68,4 +70,12 @@
     margin-bottom: 0.5em;
     width: 50%;
     border-style: groove;
+}
+
+.posts{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2em;
 }

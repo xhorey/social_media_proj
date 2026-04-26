@@ -61,6 +61,15 @@ def signup(request):
 
         return render(request, 'Signup.html')
 
+
+@login_required(login_url='signin')
+def settings(request):
+    return render(request, 'settings.html')
+
+@login_required(login_url='signin')
+def posting(request):
+    return render(request, 'post.html')
+
 @login_required(login_url='signin')
 def logout(request):
     auth.logout(request)

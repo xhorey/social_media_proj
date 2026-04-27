@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static '/Styles/Settings.css' %}">
+</head>
+<body>
+    <div class="header">
+        <a href="home" ><img id="logo" src="{% static '/Assets/Logo.png' %}" alt= "Webpage Logo"></a>
+        <h1 id="MainHeader">Settings</h1>
+        <h1></h1>
+    </div>
+    <div class="Settings">
+        <img id="profilePicture" src="{% static '/Assets/blank-profile-picture.webp' %}" alt="Profile Picture">
+        <input type="file" name="image" accept="image/*" id="selectImage">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        <label for="password" id="password" name="password">Password:</label>
+        <input type="password" id="password" name="password">
+        <label for="confirmPassword" id="confirmPassword" name="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword">
+        <label for="oldPassword" id="oldPassword" name="oldPassword">Old Password:</label>
+        <input type="password" id="oldPassword" name="oldPassword">
+        <textarea id="bio" name="bio" placeholder="Bio"></textarea>
+        <p>Are you sure you want to save these changes?(Type YES if so)</p>
+        <input type="text" id="confirmation" name="confirmation">
+        <button type="submit" id="SettingsButton">Save Changes</button>
+    </div>
+</body>
+</html>

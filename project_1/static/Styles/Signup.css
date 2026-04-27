@@ -39,3 +39,7 @@ body{
     display:flex;
     justify-self: center;
 }
+#signupButton:hover{
+    background-color: #ade0ae;
+    transition: background-color 0.3s ease;
+}

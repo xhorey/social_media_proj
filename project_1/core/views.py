@@ -74,3 +74,7 @@ def posting(request):
 def logout(request):
     auth.logout(request)
     return redirect('signin')
+
+@login_required(login_url='signin')
+def profile(request):
+    return render(request, 'profile.html')

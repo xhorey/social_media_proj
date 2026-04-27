@@ -1,0 +1,24 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'Styles/Profile.css' %}">
+</head>
+<body>
+    <div class="header">
+        <a href="home" ><img id="logo" src="{% static '/Assets/Logo.png' %}" alt= "Webpage Logo"></a>
+        <h1 id="MainHeader">Profile</h1>
+        <h1></h1>
+    </div>
+    <div class="Profile">
+        <div class="pp">
+            <img id="profilePicture" src="{% static '/Assets/blank-profile-picture.webp' %}" alt="Profile Picture">
+        </div>
+        <h2>Username: SampleUser</h2>
+        <h2>Sample Bio</h2>
+    </div>
+</body>
+</html>

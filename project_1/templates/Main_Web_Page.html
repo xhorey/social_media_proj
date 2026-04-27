@@ -10,14 +10,28 @@
 </head>
 <body>
     <div class="header">
-        <a href="/Main_page/Main_Web_Page.html" ><img id="logo" src="{% static '/Assets/Logo.png'%}" alt= "Webpage Logo"></a>
-        <h1 id="MainHeader">Main Web Page</h1>
-        <div class="profile-dropdown">
-            <a href="/Profile_page/Profile.html"><img id="pp" src="{% static '/Assets/blank-profile-picture.webp'%}" alt="Profile Icon"></a>
-             <div class="dropdown-content">
-                <a class="dropdown-link" href="/Profile_page/Profile.html">Profile</a>
-                <a class="dropdown-link" href="settings">Settings</a>
-                <a class="dropdown-link" href="logout">Logout</a>
+        <div class="logo">
+            <a href="home" ><img id="logo" src="{% static '/Assets/Logo.png'%}" alt= "Webpage Logo"></a>
+        </div>
+        <div class="headerH1">
+            <h1 id="MainHeader">Main Web Page</h1>
+        </div>
+        <div class="profile-dropdown-container">
+            <div class="add-post">
+                <button id="addPostButton">Post</button>
+            </div>
+            <div class="profile-dropdown">
+                <input type="checkbox" id="toggle-menu">
+
+                <label for="toggle-menu">
+                    <img id="pp" src="{% static '/Assets/blank-profile-picture.webp'%}" alt="Profile Icon">
+                </label>
+
+                <div class="dropdown-content">
+                    <a class="dropdown-link" href="profile">Profile</a>
+                    <a class="dropdown-link" href="settings">Settings</a>
+                    <a class="dropdown-link" href="logout">Logout</a>
+                </div>
             </div>
         </div>
     </div>

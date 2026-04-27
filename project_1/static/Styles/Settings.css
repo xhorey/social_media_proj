@@ -1,12 +1,6 @@
-#NewUser{
-    color: black;
-}
-#NewUser:hover{
-    color: white;
-    transition: color 0.3s ease;
-}
 body{
-    background: linear-gradient(to right, #054e4e, #21c0c9);
+    background-color: #50ce45;
+    font-family: Arial, sans-serif;
 }
 .header{
     display: flex;
@@ -29,18 +23,31 @@ body{
     color: white;
     padding-right: 2em;
 }
-.login{
+.Settings{
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 3em;
 }
-#loginButton{
+#SettingsButton{
     display:flex;
     justify-self: center;
+    margin-top: 1em;
 }
-
-#loginButton:hover{
+#SettingsButton:hover{
     background-color: #ade0ae;
     transition: background-color 0.3s ease;
+}
+#profilePicture{
+    width: 10em;
+    height: 10em;
+    border-radius: 100%;
+    margin-bottom: 1em;
+}
+#profilePicture:hover{
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+#selectImage{
+    margin-bottom: 1em;
 }

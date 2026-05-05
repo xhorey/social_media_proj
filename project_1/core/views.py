@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.http import HttpResponse
-from .models import Profile
+from .models import Profile, Post
 from django.contrib.auth.decorators import login_required
 
 
@@ -28,7 +28,8 @@ def signin(request):
 
 @login_required(login_url='signin')
 def home(request):
-    return render(request, 'Main_Web_Page.html')
+    user_profile = Profile.objects.get(user=request.user)
+    return render(request, 'Main_Web_Page.html', {'user_profile': user_profile})
 
 def signup(request):
 
@@ -64,11 +65,43 @@ def signup(request):
 
 @login_required(login_url='signin')
 def settings(request):
-    return render(request, 'settings.html')
+    user_profile = Profile.objects.get(user=request.user)
+    if request.method == 'POST':
+        if request.FILES.get('image') == None:
+            image = user_profile.profileimg
+            bio = request.POST['bio']
+
+            user_profile.profileimg = image
+            user_profile.bio = bio
+
+            user_profile.save()
+        if request.FILES.get('image') != None:
+            image = request.FILES.get('image')
+            bio = request.POST['bio']
+
+            user_profile.profileimg = image
+            user_profile.bi  = bio
+
+            user_profile.save()
+
+        return redirect('settings')
+    
+    return render(request, 'settings.html', {'user_profile': user_profile})
 
 @login_required(login_url='signin')
 def posting(request):
-    return render(request, 'post.html')
+    if request.method == "POST":
+        user = request.user.username
+        image = request.FILES.get('image')
+        text_of_post = request.POST['postText']
+
+        new_post = Post.objects.create(user=user, image=image, text_of_post=text_of_post)
+        new_post.save()
+
+        return redirect('/')
+    else:
+        return render(request, 'post.html')
+    
 
 @login_required(login_url='signin')
 def logout(request):
@@ -76,5 +109,10 @@ def logout(request):
     return redirect('signin')
 
 @login_required(login_url='signin')
-def profile(request):
-    return render(request, 'profile.html')
+def my_profile(request):
+    user_profile = Profile.objects.get(user=request.user)
+    context = {
+        'user_profile': user_profile,
+
+    }
+    return render(request, 'profile.html', context)

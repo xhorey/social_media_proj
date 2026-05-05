@@ -14,11 +14,12 @@
         <h1></h1>
     </div>
     <div class="Profile">
+        {% csrf_token %}
         <div class="pp">
-            <img id="profilePicture" src="{% static '/Assets/blank-profile-picture.webp' %}" alt="Profile Picture">
+            <img id="profilePicture" src="{{user_profile.profileimg.url}}" alt="Profile Picture">
         </div>
-        <h2>Username: SampleUser</h2>
-        <h2>Sample Bio</h2>
+        <h2>Username: {{user_profile.user.username}}</h2>
+        <h2>{{user_profile.bio}}</h2>
     </div>
 </body>
 </html>

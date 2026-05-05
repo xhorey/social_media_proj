@@ -31,13 +31,16 @@
             </div>
         </div>
     </div>
-    <div class="post">
-        <div class="post-image">
-            <input type="file" name="image" accept="image/*" id="selectImage">
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="post">
+            <div class="post-image">
+                <input type="file" name="image" accept="image/*" id="selectImage">
+            </div>
+            <div class="post-content">
+                <textarea id="postText" name="postText" placeholder="What's on your mind?"></textarea>
+                <button id="postButton" type="submit">Post</button>
+            </div>
         </div>
-        <div class="post-content">
-            <textarea id="postText" name="postText" placeholder="What's on your mind?"></textarea>
-            <button id="postButton" type="submit">Post</button>
-        </div>
-    </div>
+    </form>
 </body>

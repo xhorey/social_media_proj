@@ -10,6 +10,7 @@
 </head>
 <body>
     <div class="header">
+        {% csrf_token %}
         <div class="logo">
             <a href="home" ><img id="logo" src="{% static '/Assets/Logo.png'%}" alt= "Webpage Logo"></a>
         </div>
@@ -18,17 +19,19 @@
         </div>
         <div class="profile-dropdown-container">
             <div class="add-post">
-                <button id="addPostButton">Post</button>
+                <a href="posting">
+                    <button id="addPostButton">Post</button>
+                </a>
             </div>
             <div class="profile-dropdown">
                 <input type="checkbox" id="toggle-menu">
 
                 <label for="toggle-menu">
-                    <img id="pp" src="{% static '/Assets/blank-profile-picture.webp'%}" alt="Profile Icon">
+                    <img id="pp" src="{{user_profile.profileimg.url}}" alt="Profile Icon">
                 </label>
 
                 <div class="dropdown-content">
-                    <a class="dropdown-link" href="profile">Profile</a>
+                    <a class="dropdown-link" href="my_profile">Profile</a>
                     <a class="dropdown-link" href="settings">Settings</a>
                     <a class="dropdown-link" href="logout">Logout</a>
                 </div>

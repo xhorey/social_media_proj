@@ -29,7 +29,9 @@ def signin(request):
 @login_required(login_url='signin')
 def home(request):
     user_profile = Profile.objects.get(user=request.user)
-    return render(request, 'Main_Web_Page.html', {'user_profile': user_profile})
+
+    posts = Post.objects.all()
+    return render(request, 'Main_Web_Page.html', {'user_profile': user_profile, 'posts':posts})
 
 def signup(request):
 

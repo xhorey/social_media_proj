@@ -41,11 +41,27 @@
     <div class="content">
         {% for post in posts %}
          <div class="posts">
+            <div class="post_header">
+                <div class="user_info">
+                    <img id="pp" src="{{user_profile.profileimg.url}}" alt="Profile Icon">
+                    <h2>{{user_profile.user.username}}</h2>
+                </div>
+                <div class="post_time">
+                    <p>10-05-2026</p>
+                </div>
+            </div>
             <img id="postImage" src="{{post.image.url}}" alt="Sample Post Image">
             <div class="post-content">
                 <p>{{post.text_of_post}}</p>
             </div>
+            <div class="post_interactions">
+                <button id="like_button">👍 0</button>
+                <button id="dislike_button">👎 0</button>
+                <button id="comment_button">💬 0</button>
+                <button id="repost_button">🔄 0</button>
+            </div>
             <div class="Comments">
+                <h2 id="comment_header">Comments</h2>
                 <p>Comment 1</p>
                 <p>Comment 2</p>
             </div>

@@ -55,8 +55,12 @@
                 <p>{{post.text_of_post}}</p>
             </div>
             <div class="post_interactions">
-                <button id="like_button">👍 0</button>
-                <button id="dislike_button">👎 0</button>
+                <a href="/like-post?post_id={{post.id}}">
+                    <button id="like_button">👍 {{post.no_of_likes}}</button>
+                </a> 
+                <a href="/dislike-post?post_id={{post.id}}">
+                    <button id="dislike_button">👎 {{post.no_of_dislikes}}</button>
+                </a>
                 <button id="comment_button">💬 0</button>
                 <button id="repost_button">🔄 0</button>
             </div>

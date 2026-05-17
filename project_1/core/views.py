@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.http import HttpResponse
 from .models import Profile, Post, LikePost,DislikePost
 from django.contrib.auth.decorators import login_required
-
+from django.http import JsonResponse
+import json
 
 def signin(request):
 
@@ -128,9 +129,11 @@ def profile(request, pk):
 @login_required(login_url='signin')
 def like_post(request):
     username = request.user.username
-    post_id = request.GET.get('post_id')
 
-    post = Post.objects.get(id=post_id)
+    data = json.loads(request.body)
+    post_id = data.get('post_id')
+
+    post = get_object_or_404(Post, id=post_id)
 
     like_filter = LikePost.objects.filter(post_id=post_id, username=username).first()
     dislike_filter = DislikePost.objects.filter(post_id=post_id, username=username).first()
@@ -144,20 +147,25 @@ def like_post(request):
         new_like = LikePost.objects.create(post_id=post_id, username=username)
         new_like.save()
         post.no_of_likes += 1
-        post.save()
-        return redirect('/')
     else:
         like_filter.delete()
         post.no_of_likes -= 1
-        post.save()
-        return redirect('/')
+
+    post.save()
+
+    return JsonResponse({
+        "likes": post.no_of_likes,
+        "dislikes": post.no_of_dislikes
+    })
 
 @login_required(login_url='signin')
 def dislike_post(request):
     username = request.user.username
-    post_id = request.GET.get('post_id')
 
-    post = Post.objects.get(id=post_id)
+    data = json.loads(request.body)
+    post_id = data.get('post_id')
+
+    post = get_object_or_404(Post, id=post_id)
 
     like_filter = LikePost.objects.filter(post_id=post_id, username=username).first()
     dislike_filter = DislikePost.objects.filter(post_id=post_id, username=username).first()
@@ -171,10 +179,13 @@ def dislike_post(request):
         new_dislike = DislikePost.objects.create(post_id=post_id, username=username)
         new_dislike.save()
         post.no_of_dislikes += 1
-        post.save()
-        return redirect('/')
     else:
         dislike_filter.delete()
         post.no_of_dislikes -= 1
-        post.save()
-        return redirect('/')
+
+    post.save()
+    
+    return JsonResponse({
+        "likes": post.no_of_likes,
+        "dislikes": post.no_of_dislikes
+    })

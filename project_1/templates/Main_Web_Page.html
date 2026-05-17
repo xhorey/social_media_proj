@@ -55,14 +55,14 @@
                 <p>{{post.text_of_post}}</p>
             </div>
             <div class="post_interactions">
-                <a href="/like-post?post_id={{post.id}}">
-                    <button id="like_button">👍 {{post.no_of_likes}}</button>
-                </a> 
-                <a href="/dislike-post?post_id={{post.id}}">
-                    <button id="dislike_button">👎 {{post.no_of_dislikes}}</button>
-                </a>
-                <button id="comment_button">💬 0</button>
-                <button id="repost_button">🔄 0</button>
+                <button class="like_button" data-post-id="{{ post.id }}">
+                    👍 <span class="like-count">{{ post.no_of_likes }}</span>
+                </button>
+                <button class="dislike_button" data-post-id="{{ post.id }}">
+                    👎 <span class="dislike-count">{{ post.no_of_dislikes }}</span>
+                </button>
+                <button class="comment_button">💬 0</button>
+                <button class="repost_button">🔄 0</button>
             </div>
             <div class="Comments">
                 <h2 id="comment_header">Comments</h2>
@@ -72,5 +72,6 @@
         </div>
         {% endfor %}
     </div>
+    <script src="{% static 'JS/like_dislike_fetch.js'%}"></script>
 </body>
 </html>

@@ -9,7 +9,7 @@ urlpatterns = [
     path('logout', views.logout, name='logout'),
     path('settings', views.settings, name='settings'),
     path('posting', views.posting, name='posting'),
-    path('like-post', views.like_post, name='like-post'),
-    path('dislike-post', views.dislike_post, name='dislike-post'),
+    path('like-post/', views.like_post, name='like-post'),
+    path('dislike-post/', views.dislike_post, name='dislike-post'),
     path('profile/<str:pk>', views.profile, name='profile'),
 ]

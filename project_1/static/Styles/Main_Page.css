@@ -130,34 +130,34 @@ body{
     background-color: aquamarine;
 }
 
-#repost_button {
+.repost_button {
     margin-top: 1em;
     border-radius: 5%;
     padding: 0;
     font-size: large;
 }
-#comment_button {
-    margin-top: 1em;
-    border-radius: 5%;
-    padding: 0;
-    font-size: large;
-    margin-right: 1em;
+.comment_button {
+    margin-top: 1em ;
+    border-radius: 5% ;
+    padding: 0 ;
+    font-size: large ;
+    margin-right: 1em ; 
 }
-#like_button {
-    margin-top: 1em;
-    border-radius: 5%;
-    padding: 0;
-    font-size: large;
-    margin-right: 1em;
-}
-#dislike_button {
+.like_button {
     margin-top: 1em;
     border-radius: 5%;
     padding: 0;
     font-size: large;
     margin-right: 1em;
 }
-#repost_button:hover, #comment_button:hover, #like_button:hover, #dislike_button:hover {
+.dislike_button {
+    margin-top: 1em;
+    border-radius: 5%;
+    padding: 0;
+    font-size: large;
+    margin-right: 1em;
+}
+.repost_button:hover, #comment_button:hover, #like_button:hover, #dislike_button:hover {
     background-color: #ade0ae;
     transition: background-color 0.3s ease;
 }

@@ -83,11 +83,13 @@ def settings(request):
             bio = request.POST['bio']
 
             user_profile.profileimg = image
-            user_profile.bi  = bio
+            user_profile.bio  = bio
 
             user_profile.save()
 
-        return redirect('settings')
+        return JsonResponse({'status': 'ok',
+                             'bio': user_profile.bio,
+                             'image_url': user_profile.profileimg.url})
     
     return render(request, 'settings.html', {'user_profile': user_profile})
 

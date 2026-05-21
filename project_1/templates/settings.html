@@ -17,14 +17,15 @@
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="Settings">
-            <img id="profilePicture" src="{{user_profile.profileimg.url}}" alt="Profile Picture">
+            <img class="profilePicture" src="{{user_profile.profileimg.url}}" alt="Profile Picture">
             <input type="file" name="image" accept="image/*" id="selectImage">
             <!-- <label for="username">Username:</label>
             <input type="text" id="username" name="username"> -->
             <label>Bio</label> 
-            <textarea id="bio" name="bio" placeholder="Bio">{{user_profile.bio}}</textarea>
-            <button type="submit" id="SettingsButton">Save Changes</button>
+            <textarea class="bio" name="bio" placeholder="Bio">{{user_profile.bio}}</textarea>
+            <button type="submit" class="SettingsButton">Save Changes</button>
         </div>
     </form>
+    <script src="{% static 'JS/settings_submit_fetch.js' %}"></script>
 </body>
 </html>

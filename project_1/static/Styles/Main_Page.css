@@ -93,13 +93,15 @@
     margin-top: 1em;
     background-color: lightgray;
     padding: 0.5em;
-    border-radius: 5px;
+    border-radius: 20px;
     margin-bottom: 0.5em;
 
-    width: 100%;
+    width: 97%;
     box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
 
-    border-style: groove;
+    /*border-style: groove; */
 }
 
 .posts {
@@ -107,6 +109,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-color: white;
+    margin-bottom: 5%;
+    width: 100%;
+    border-radius: 25px;
+    padding-bottom: 1.5%;
 }
 #postButton {
     margin-top: 1em;
@@ -127,7 +134,7 @@
 }
 
 body{
-    background-color: aquamarine;
+    background-color: #aaadad;
 }
 
 .repost_button {
@@ -163,7 +170,6 @@ body{
 }
 .post_interactions{
     display: flex;
-    border: solid black 0.1em;
     padding-bottom: 1em;
     width: 50%;
     align-items: center;
@@ -175,12 +181,13 @@ body{
     align-items: center;
     justify-content: space-between;
     width: 50%;
-    border: solid black 0.1em;
+
 }
 
 .user_info {
     display: flex;
     align-items: center;
+    padding-left: 2%;
 }
 
 .content {
@@ -192,14 +199,20 @@ body{
     width: 50%;
     margin: auto;
 
-    border: solid black 0.1em;
     padding: 0;
     margin-top: 1em;
 }
 
+.post-content {
+    border-bottom: 1px double black;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #postImage,
 .post_header,
-.post_interactions,
-.Comments {
+.post_interactions{
     width: 100%;
 }

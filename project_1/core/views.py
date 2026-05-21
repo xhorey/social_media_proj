@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from .models import Profile, Post, LikePost,DislikePost
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.views.decorators.cache import never_cache
 import json
 
 def signin(request):
@@ -28,6 +29,7 @@ def signin(request):
         return render(request, 'login.html')
 
 @login_required(login_url='signin')
+@never_cache
 def home(request):
     user_profile = Profile.objects.get(user=request.user)
 

@@ -14,12 +14,10 @@
         <div class="logo">
             <a href="home" ><img id="logo" src="{% static '/Assets/Logo.png'%}" alt= "Webpage Logo"></a>
         </div>
-        <div class="headerH1">
-            <h1 id="MainHeader">Main Web Page</h1>
-        </div>
+        <h1 id="MainHeader">Main Web Page</h1>
         <div class="profile-dropdown-container">
             <div class="add-post">
-                <a href="posting">
+                <a class="post-btn" href="posting">
                     <button id="addPostButton">Post</button>
                 </a>
             </div>
@@ -44,13 +42,15 @@
             <div class="post_header">
                 <div class="user_info">
                     <img id="pp" src="{{user_profile.profileimg.url}}" alt="Profile Icon">
-                    <h2>{{user_profile.user.username}}</h2>
+                    <h2 class="username_over_post">{{user_profile.user.username}}</h2>
                 </div>
                 <div class="post_time">
                     <p>10-05-2026</p>
                 </div>
             </div>
-            <img id="postImage" src="{{post.image.url}}" alt="Sample Post Image">
+            <div class="postImage">
+                <img id="postImage" src="{{post.image.url}}" alt="Sample Post Image">
+            </div>
             <div class="post-content">
                 <p class="text-of-post">{{post.text_of_post}}</p>
             </div>

@@ -1,5 +1,5 @@
 body{
-    background-color: #50ce45;
+    background-color: #b7bbbb;
     font-family: Arial, sans-serif;
 }
 .header{
@@ -24,24 +24,59 @@ body{
     padding-right: 2em;
 }
 .Settings{
+    padding-top: 2%;
+    padding-bottom: 1.5%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 3em;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    background-color: white;
+    width: 30%;
+    border-radius: 20px;
+    border: 2px double #5799c8;
 }
+
+.bio{
+    width: 60%;
+    height: 75px;
+    resize: none;
+    margin-bottom: 3%;
+}
+
+.bio_lbl{
+    display: block;  
+    background-color: #5799c8;
+    width: 10%;
+    text-align: center; 
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    color: white;
+}
+
 .SettingsButton{
-    display:flex;
-    justify-self: center;
-    margin-top: 1em;
+    background-color: #5799c8;
+    color: white;
+    border: none;
+    padding: 0.7em 1.5em;
+    border-radius: 999px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 .SettingsButton:hover{
-    background-color: #ade0ae;
+    background-color: #0572c0;
     transition: background-color 0.3s ease;
 }
 .profilePicture{
-    width: 10em;
-    height: 10em;
-    border-radius: 100%;
+    width: 50%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
     margin-bottom: 1em;
 }
 .profilePicture:hover{

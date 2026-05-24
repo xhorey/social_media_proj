@@ -9,17 +9,47 @@
 </head>
 <body>
     <div class="header">
-        <a href="/home" ><img id="logo" src="{% static '/Assets/Logo.png' %}" alt= "Webpage Logo"></a>
+        <a href="/home" >
+            <img id="logo" src="{% static '/Assets/Logo.png' %}" alt= "Webpage Logo">
+        </a>
         <h1 id="MainHeader">Profile</h1>
-        <h1></h1>
     </div>
-    <div class="Profile">
+    
+    <div class="profile_content">
+
+        <div class="banner"></div>
+
         {% csrf_token %}
-        <div class="pp">
-            <img id="profilePicture" src="{{user_profile.profileimg.url}}" alt="Profile Picture">
+        <div class="mainInfo_profile">
+
+            <div class="pfp_and_name">
+                <img id="profilePicture" src="{{user_profile.profileimg.url}}" alt="Profile Picture">
+                <h2 class="username_text">{{user_profile.user.username}}</h2>
+            </div>
+
+            <div class="numbers">
+                <div class="posts_number">
+                    <p class="posts_count">29</p>
+                    <p class="posts_text">Posts</p>
+                </div>
+
+                <div class="followers_number">
+                    <p class="followers_count">25k</p>
+                    <p class="followers_text">Followers</p>
+                </div>
+            </div>
+            
+
+            <button class="follow_button">Follow</button>
+
         </div>
-        <h2>Username: {{user_profile.user.username}}</h2>
-        <h2>{{user_profile.bio}}</h2>
+        
+        <div class="bio_div">
+            <h2 class="bio_text">{{user_profile.bio|linebreaks}}</h2>
+        </div>
+        
     </div>
+    
+    
 </body>
 </html>

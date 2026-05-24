@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 #logo {
     width: 8em;
     height: 8em;
@@ -15,10 +21,14 @@
     justify-content: space-between;
     border-bottom: 2px double black;
     padding: 1em;
+    position: relative;
+    width: 100%;
 }
 #MainHeader {
     font-size: 2em;
-    padding-right: 3em;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #profilePicture {
@@ -26,11 +36,82 @@
     height: 10em;
     border-radius: 100%;
     margin-bottom: 1em;
+    margin-top: -50px;
+    border: 3px solid white;
 }
-.pp{
+
+.pfp_and_name{
+    padding-left: 25px;
     display: flex;
-    justify-content: center;
+    gap: 1em;
+    align-items: center;
 }
+
 body{
-    background-color:aquamarine;
+    background-color: #b7bbbb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.banner{
+    width: 100%;
+    height: 180px;
+    background-color: #5799c8;
+}
+
+.profile_content{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: black double 1px;
+}
+
+.mainInfo_profile{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: -20px;
+}
+
+.follow_button{
+    margin-right: 5%;
+}
+
+.posts_number{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+.posts_number p {
+    margin: 0;
+}
+
+.followers_number{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+.followers_number p {
+    margin: 0;
+}
+
+.numbers{
+    display: flex;
+    gap: 2em;
+}
+
+.bio_div{
+    width: 100%;
+    padding-left: 35px;
+}
+
+.bio_text{
+    line-height: 1.5;
 }

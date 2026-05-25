@@ -6,17 +6,18 @@ from datetime import datetime
 User = get_user_model()
 
 class Profile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     id_user = models.IntegerField()
     bio = models.TextField(blank=True)
     profileimg = models.ImageField(upload_to='profile_images', default='blank_pfp.jpg')
+    number_of_followers = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username
     
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    user = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='post_images')
     text_of_post = models.TextField()
     created_at = models.DateTimeField(default=datetime.now)
@@ -39,3 +40,10 @@ class DislikePost(models.Model):
 
     def __str__(self):
         return self.username
+
+class FollowersCount(models.Model):
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="followed")
+
+    def __str__(self):
+        return self.user.username

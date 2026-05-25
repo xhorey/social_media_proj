@@ -34,13 +34,17 @@
                 </div>
 
                 <div class="followers_number">
-                    <p class="followers_count">25k</p>
+                    <p class="followers_count">{{user_profile.number_of_followers}}</p>
                     <p class="followers_text">Followers</p>
                 </div>
             </div>
             
-
-            <button class="follow_button">Follow</button>
+            <form class="follow_button" action="/follow" method="POST">
+                {% csrf_token %}
+                <input type="hidden" value="{{ user_object.username }}" name="user" />
+                <button type="submit">Follow</button>
+            </form>
+            
 
         </div>
         

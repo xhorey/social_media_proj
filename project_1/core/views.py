@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.http import HttpResponse
-from .models import Profile, Post, LikePost,DislikePost
+from .models import Profile, Post, LikePost,DislikePost, FollowersCount
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
@@ -98,7 +98,7 @@ def settings(request):
 @login_required(login_url='signin')
 def posting(request):
     if request.method == "POST":
-        user = request.user.username
+        user = request.user
         image = request.FILES.get('image')
         text_of_post = request.POST['postText']
 
@@ -119,7 +119,7 @@ def logout(request):
 def profile(request, pk):
     user_object = User.objects.get(username=pk)
     user_profile = Profile.objects.get(user=user_object)
-    user_posts = Post.objects.filter(user=pk)
+    user_posts = Post.objects.filter(user=user_object)
     user_post_length = len(user_posts)
 
     context = {
@@ -193,3 +193,29 @@ def dislike_post(request):
         "likes": post.no_of_likes,
         "dislikes": post.no_of_dislikes
     })
+
+
+@login_required(login_url='signin')
+def follow(request):
+    if request.method == 'POST':
+        follower = request.user
+        username = request.POST['user'] 
+        user = User.objects.get(username=username)
+        user_profile = Profile.objects.filter(user=user).first()
+
+        if FollowersCount.objects.filter(follower=follower, user=user).first():
+            delete_follower = FollowersCount.objects.get(follower=follower, user=user)
+            delete_follower.delete()
+            user_profile.number_of_followers -=1
+        else:
+            new_follower = FollowersCount.objects.create(follower=follower, user=user)
+            new_follower.save()
+            user_profile.number_of_followers +=1
+        
+        user_profile.save()
+        return redirect('/profile/'+user.username)
+        
+
+
+    else:
+        return redirect('/')

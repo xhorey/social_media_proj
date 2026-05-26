@@ -29,13 +29,22 @@
 
             <div class="numbers">
                 <div class="posts_number">
-                    <p class="posts_count">29</p>
+
+                    <p class="posts_count">{{user_post_length}}</p>
+                    {% if user_post_length == 0 or user_post_length == 1 %}
+                    <p class="posts_text">Post</p>
+                    {% else %}
                     <p class="posts_text">Posts</p>
+                    {% endif %}
                 </div>
 
                 <div class="followers_number">
-                    <p class="followers_count">{{user_profile.number_of_followers}}</p>
+                    <p class="followers_count">{{followers_count}}</p>
+                    {% if followers_count == 0 or followers_count == 1 %}
+                    <p class="followers_text">Follower</p>
+                    {% else %}
                     <p class="followers_text">Followers</p>
+                    {% endif %}
                 </div>
             </div>
             
@@ -48,7 +57,7 @@
             <form class="follow_button" action="/follow" method="POST">
                 {% csrf_token %}
                 <input type="hidden" value="{{ user_object.username }}" name="user" />
-                <button class="follow_button_style" type="submit">Follow</button>
+                <button class="follow_button_style" type="submit">{{button_text}}</button>
             </form>
             {% endif %}
             

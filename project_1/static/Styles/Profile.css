@@ -115,3 +115,23 @@ body{
 .bio_text{
     line-height: 1.5;
 }
+
+.follow_button_style{
+    background-color: #5799c8;
+    color: white;
+    border: none;
+    padding: 0.7em 1.5em;
+    border-radius: 999px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+}
+
+.follow_button_style:hover {
+    background-color: #0572c0;
+    transition: background-color 0.3s ease;
+}
+
+.follow_button_style:active{
+    transform: scale(0.9);
+}

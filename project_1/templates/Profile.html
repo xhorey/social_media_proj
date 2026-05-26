@@ -39,11 +39,18 @@
                 </div>
             </div>
             
+            {% if user_object.username == user.username %}
+            <a href="/settings" class="follow_button">
+                <button class="follow_button_style">Settings</button>
+            </a>
+            
+            {% else %}
             <form class="follow_button" action="/follow" method="POST">
                 {% csrf_token %}
                 <input type="hidden" value="{{ user_object.username }}" name="user" />
-                <button type="submit">Follow</button>
+                <button class="follow_button_style" type="submit">Follow</button>
             </form>
+            {% endif %}
             
 
         </div>

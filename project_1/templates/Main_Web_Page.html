@@ -40,10 +40,10 @@
         {% for post in posts %}
          <div class="posts">
             <div class="post_header">
-                <div class="user_info">
+                <a class="user_info" href="/profile/{{post.user}}">
                     <img id="pp" src="{{post.user.profile.profileimg.url}}" alt="Profile Icon">
                     <h2 class="username_over_post">{{post.user}}</h2>
-                </div>
+                </a>
                 <div class="post_time">
                     <p>10-05-2026</p>
                 </div>

@@ -216,12 +216,24 @@ def follow(request):
         if FollowersCount.objects.filter(follower=follower, user=user).first():
             delete_follower = FollowersCount.objects.get(follower=follower, user=user)
             delete_follower.delete()
+            text_button = "Follow"
         else:
             new_follower = FollowersCount.objects.create(follower=follower, user=user)
             new_follower.save()
-        return redirect('/profile/'+user.username)
-        
+            text_button = "Unfollow"
 
+        amount_followers = len(FollowersCount.objects.filter(user=user))
+
+        if amount_followers > 1:
+            text_marker = "Followers"
+        else:
+            text_marker = "Follower"
+        
+        return JsonResponse({
+            'text_button': text_button,
+            'amount_followers': amount_followers,
+            'text_marker': text_marker
+        })
 
     else:
         return redirect('/')

@@ -253,3 +253,7 @@ body{
     border-bottom: 1px double black;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}

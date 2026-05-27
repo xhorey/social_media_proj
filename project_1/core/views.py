@@ -33,7 +33,8 @@ def signin(request):
 def home(request):
     user_profile = Profile.objects.get(user=request.user)
 
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-created_at')
+
     return render(request, 'Main_Web_Page.html', {'user_profile': user_profile, 'posts':posts})
 
 def signup(request):
@@ -99,7 +100,7 @@ def settings(request):
 def posting(request):
 
     user_profile = Profile.objects.get(user=request.user)
-    
+
     if request.method == "POST":
         user = request.user
         image = request.FILES.get('image')

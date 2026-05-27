@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'Styles/Post.css' %}">
 </head>
 <body>
+    
     <div class="header">
         <div class="logo">
             <a href="home" ><img id="logo" src="{% static '/Assets/Logo.png'%}" alt= "Webpage Logo"></a>
@@ -15,7 +16,7 @@
         <div class="headerH1">
             <h1 id="MainHeader">Post</h1>
         </div>
-        {% csrf_token %}
+        
         <div class="profile-dropdown-container">
             <div class="profile-dropdown">
                 <input type="checkbox" id="toggle-menu">
@@ -33,7 +34,7 @@
         </div>
     </div>
     <form class="post_form" action="" method="POST" enctype="multipart/form-data">
-        
+        {% csrf_token %}
         <div class="post">
             <div class="post-image">
                 <input type="file" name="image" accept="image/*" id="selectImage">

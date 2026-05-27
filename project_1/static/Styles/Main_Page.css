@@ -257,3 +257,25 @@ a {
     text-decoration: none;
     color: inherit;
 }
+
+.comment{
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#pp_comment{
+    width: 2em;
+    height: 2em;
+    border-radius: 100%;
+    margin-right: 15px;
+    margin-left: 5px;
+}
+
+.text_of_comment{
+    display: flex;
+    flex-direction: column;
+}
+
+.comment_username{
+    margin: 0px;
+}

@@ -13,7 +13,7 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-const csrftoken = getCookie('csrftoken');
+const csrftokenLike = getCookie('csrftoken');
 
 document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener('click', (e) => {
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-CSRFToken": csrftoken
+                    "X-CSRFToken": csrftokenLike
                 },
                 body: JSON.stringify({
                     post_id: postId

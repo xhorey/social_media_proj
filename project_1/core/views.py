@@ -122,12 +122,15 @@ def logout(request):
     return redirect('signin')
 
 @login_required(login_url='signin')
+@never_cache
 def profile(request, pk):
     user_object = User.objects.get(username=pk)
     user_profile = Profile.objects.get(user=user_object)
     user_posts = Post.objects.filter(user=user_object)
     user_post_length = len(user_posts)
     amount_of_followers = len(FollowersCount.objects.filter(user=user_object))
+
+    showed_posts = user_posts.order_by('-created_at')
 
     follower = request.user
     user = user_object
@@ -144,6 +147,7 @@ def profile(request, pk):
         'user_post_length': user_post_length,
         'followers_count': amount_of_followers,
         'button_text': button_text,
+        'posts_to_show': showed_posts,
     }
     return render(request, 'Profile.html', context)
 

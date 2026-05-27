@@ -12,7 +12,7 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-const csrftoken = getCookie('csrftoken');
+const csrftokenFollow = getCookie('csrftoken');
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch("/follow/", {
             method: "POST",
             headers: {
-                "X-CSRFToken": csrftoken
+                "X-CSRFToken": csrftokenFollow
             },
             body: formData
         })

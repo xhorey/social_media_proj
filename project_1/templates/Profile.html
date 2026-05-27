@@ -67,9 +67,48 @@
         <div class="bio_div">
             <h2 class="bio_text">{{user_profile.bio|linebreaks}}</h2>
         </div>
+
+        <div class="posts_of_user">
+            {% for post in posts_to_show %}
+            <div class="posts">
+                <div class="post_header">
+                    <a class="user_info" href="/profile/{{post.user}}">
+                        <img id="pp" src="{{post.user.profile.profileimg.url}}" alt="Profile Icon">
+                        <h2 class="username_over_post">{{post.user}}</h2>
+                    </a>
+                    <div class="post_time">
+                        <p>{{post.created_at}}</p>
+                    </div>
+                </div>
+                <div class="postImage">
+                    <img id="postImage" src="{{post.image.url}}" alt="Sample Post Image">
+                </div>
+                <div class="post-content">
+                    <p class="text-of-post">{{post.text_of_post}}</p>
+                </div>
+                <div class="post_interactions">
+                    <button class="like_button" data-post-id="{{ post.id }}">
+                        👍 <span class="like-count">{{ post.no_of_likes }}</span>
+                    </button>
+                    <button class="dislike_button" data-post-id="{{ post.id }}">
+                        👎 <span class="dislike-count">{{ post.no_of_dislikes }}</span>
+                    </button>
+                    <button class="comment_button">💬 0</button>
+                    <button class="repost_button">🔄 0</button>
+                </div>
+                <div class="Comments">
+                    <h2 id="comment_header">Comments</h2>
+                    <p>Comment 1</p>
+                    <p>Comment 2</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
         
     </div>
-    
+    {% if user_object.username != user.username %}
     <script src="{% static 'JS/follow.js'%}"></script>
+    {% endif %}
+    <script src="{% static 'JS/like_dislike_fetch.js'%}"></script>
 </body>
 </html>

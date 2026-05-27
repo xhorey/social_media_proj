@@ -15,6 +15,13 @@
     justify-content: space-between;
     border-bottom: 2px double black;
     padding: 1em;
+    position: relative;
+}
+
+.headerH1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #pp {
@@ -25,7 +32,6 @@
 
 #MainHeader {
     font-size: 2em;
-    padding-right: 1em;
 }
 
 .content {
@@ -85,32 +91,58 @@
     align-items: center;
     justify-content: center;
     margin-top: 2em;
+    background-color: white;
+    width: 60%;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    
+    border-radius: 20px;
+
+    
 }
+
+.post_form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .post-content{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-top: 1em;
-    padding: 1em;
-    width: 50%;
+    width: 80%;
 }
 body{
-    background-color: aquamarine;
+    background-color: #b7bbbb;
 }
 #postButton{
-    display:flex;
-    justify-self: center;
-    margin-top: 1em;
+    background-color: #5799c8;
+    color: white;
+    border: none;
+    padding: 0.7em 1.5em;
+    border-radius: 999px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 25px;
+    width: 12%;
+    aspect-ratio: 16 / 5;
+    font-size: clamp(14px, 2vw, 18px);
 }
 #postButton:hover{
-    background-color: #ade0ae;
+    background-color: #0572c0;
     transition: background-color 0.3s ease;
 }
 
 #postText{
     width: 100%;
-    height: 5em;
+    height: 10em;
     margin-bottom: 1em;
+    
+    resize: none;
 }
     

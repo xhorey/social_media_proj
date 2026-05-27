@@ -15,24 +15,25 @@
         <div class="headerH1">
             <h1 id="MainHeader">Post</h1>
         </div>
+        {% csrf_token %}
         <div class="profile-dropdown-container">
             <div class="profile-dropdown">
                 <input type="checkbox" id="toggle-menu">
 
                 <label for="toggle-menu">
-                    <img id="pp" src="{% static '/Assets/blank-profile-picture.webp'%}" alt="Profile Icon">
+                    <img id="pp" src="{{user_profile.profileimg.url}}" alt="Profile Icon">
                 </label>
 
                 <div class="dropdown-content">
-                    <a class="dropdown-link" href="profile">Profile</a>
+                    <a class="dropdown-link" href="profile/{{user_profile.user.username}}">Profile</a>
                     <a class="dropdown-link" href="settings">Settings</a>
                     <a class="dropdown-link" href="logout">Logout</a>
                 </div>
             </div>
         </div>
     </div>
-    <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+    <form class="post_form" action="" method="POST" enctype="multipart/form-data">
+        
         <div class="post">
             <div class="post-image">
                 <input type="file" name="image" accept="image/*" id="selectImage">

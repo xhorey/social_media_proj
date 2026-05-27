@@ -97,17 +97,22 @@ def settings(request):
 
 @login_required(login_url='signin')
 def posting(request):
+
+    user_profile = Profile.objects.get(user=request.user)
+    
     if request.method == "POST":
         user = request.user
         image = request.FILES.get('image')
         text_of_post = request.POST['postText']
+
+        
 
         new_post = Post.objects.create(user=user, image=image, text_of_post=text_of_post)
         new_post.save()
 
         return redirect('/')
     else:
-        return render(request, 'post.html')
+        return render(request, 'post.html', {'user_profile': user_profile})
     
 
 @login_required(login_url='signin')

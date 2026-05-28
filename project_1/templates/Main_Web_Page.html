@@ -67,8 +67,8 @@
             <div class="Comments">
                 <h2 id="comment_header">Comments</h2>
                 <div class="comment">
-                    <img id="pp_comment" src="{{post.user.profile.profileimg.url}}" alt="Profile Icon">
-                    <div class="text_of_comment"><p class="comment_username">@{{post.user.username}}:</p>Comment 1</div>
+                    <a href="/profile/{{post.user}}"><img id="pp_comment" src="{{post.user.profile.profileimg.url}}" alt="Profile Icon"></a>
+                    <div class="text_of_comment"><a href="/profile/{{post.user}}"><p class="comment_username">@{{post.user.username}}:</p></a>Comment 1</div>
                 </div>
                 <div class="comment">
                     <img id="pp_comment" src="{{post.user.profile.profileimg.url}}" alt="Profile Icon">

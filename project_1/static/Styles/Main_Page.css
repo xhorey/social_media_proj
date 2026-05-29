@@ -165,15 +165,10 @@ body{
 .repost_button {
     margin-top: 1em;
     border-radius: 5%;
-    padding: 0;
+    padding: 4px;
     font-size: large;
-}
-.comment_button {
-    margin-top: 1em ;
-    border-radius: 5% ;
-    padding: 0 ;
-    font-size: large ;
-    margin-right: 1em ; 
+    border-radius: 100%;
+    aspect-ratio: 1 / 1;
 }
 .like_button {
     margin-top: 1em;
@@ -181,6 +176,9 @@ body{
     padding: 0;
     font-size: large;
     margin-right: 1em;
+    border-radius: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 4px;
 }
 .dislike_button {
     margin-top: 1em;
@@ -188,11 +186,11 @@ body{
     padding: 0;
     font-size: large;
     margin-right: 1em;
+    border-radius: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 4px;
 }
-.repost_button:hover, #comment_button:hover, #like_button:hover, #dislike_button:hover {
-    background-color: #ade0ae;
-    transition: background-color 0.3s ease;
-}
+
 .post_interactions{
     display: flex;
     padding-bottom: 1em;
@@ -278,4 +276,25 @@ a {
 
 .comment_username{
     margin: 0px;
+}
+
+.write_a_comment{
+    margin-top: 5px;
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.my_comment{
+    width: 87%;
+    margin-right: 8px;
+    height: auto;
+    resize: none;
+    border-radius: 5px;
+}
+
+.new_comment_button{
+    border-radius: 25%;
+    width: 10%;
+    aspect-ratio: 1 / 1;
 }

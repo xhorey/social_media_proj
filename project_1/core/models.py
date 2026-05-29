@@ -24,7 +24,7 @@ class Post(models.Model):
     no_of_dislikes = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.user
+        return f"{self.user.username} - {self.created_at}"
 
 class LikePost(models.Model):
     post_id = models.CharField(max_length=500)

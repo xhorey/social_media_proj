@@ -96,11 +96,18 @@
                     <button class="comment_button">💬 0</button>
                     <button class="repost_button">🔄 0</button>
                 </div>
-                <div class="Comments">
-                    <h2 id="comment_header">Comments</h2>
-                    <p>Comment 1</p>
-                    <p>Comment 2</p>
-                </div>
+                    <div class="Comments">
+                        <h2 id="comment_header">Comments</h2>
+                        <div class="comment">
+                            <a href="/profile/{{post.user}}"><img id="pp_comment" src="{{post.user.profile.profileimg.url}}" alt="Profile Icon"></a>
+                            <div class="text_of_comment"><a href="/profile/{{post.user}}"><p class="comment_username">@{{post.user.username}}:</p></a>Comment 1</div>
+                        </div>
+                        <div class="comment">
+                            <img id="pp_comment" src="{{post.user.profile.profileimg.url}}" alt="Profile Icon">
+                            <div class="text_of_comment"><p class="comment_username">@{{post.user.username}}:</p>Hugeass comment aahahahah XDDDDDDD YOUUUUUU Hugeass comment aahahahah XDDDDDDD YOUUUUUU Hugeass comment aahahahah XDDDDDDD YOUUUUUU Hugeass comment aahahahah XDDDDDDD YOUUUUUU
+                            </div>
+                        </div>
+                    </div>
             </div>
             {% endfor %}
         </div>

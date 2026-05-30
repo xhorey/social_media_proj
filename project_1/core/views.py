@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.http import HttpResponse
-from .models import Profile, Post, LikePost,DislikePost, FollowersCount
+from .models import Profile, Post, LikePost,DislikePost, FollowersCount, Comment
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
@@ -247,3 +247,21 @@ def follow(request):
 
     else:
         return redirect('/')
+
+@login_required(login_url='signin') 
+def comment(request):
+    user = request.user
+
+    post_id = request.POST.get("post_id")
+    post = Post.objects.filter(id=post_id).first()
+
+    if not post:
+        return JsonResponse({"status": "post not found"}, status=404)
+    
+    comment_text = request.POST.get("comment")
+
+    new_comment = Comment.objects.create(post=post, user=user, comment_text=comment_text)
+    new_comment.save()
+
+    return JsonResponse({"status": "success"})
+

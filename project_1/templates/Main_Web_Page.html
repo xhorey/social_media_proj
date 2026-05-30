@@ -63,7 +63,7 @@
                 </button>
                 <button class="repost_button">🔄 0</button>
             </div>
-            <form class="write_a_comment" name="new_comment">
+            <form class="write_a_comment" name="new_comment" data-post-id="{{ post.id }}">
                 <textarea class="my_comment" name="comment" placeholder="Let everybody know what you think"></textarea>
                 <button class="new_comment_button" type="submit">⌯⌲</button>
             </form>
@@ -82,5 +82,6 @@
         {% endfor %}
     </div>
     <script src="{% static 'JS/like_dislike_fetch.js'%}"></script>
+    <script src="{% static 'JS/comment_fetch.js'%}"></script>
 </body>
 </html>

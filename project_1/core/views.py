@@ -35,6 +35,9 @@ def home(request):
 
     posts = Post.objects.all().order_by('-created_at')
 
+    for post in posts:
+        post.latest_comments = post.comments.order_by('-created_at')[:2]
+
     return render(request, 'Main_Web_Page.html', {'user_profile': user_profile, 'posts':posts})
 
 def signup(request):

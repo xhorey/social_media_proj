@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" type="image/png" href="{% static '/Assets/Mint_firstLogo.png'%}">
     <title>Profile</title>
     <link rel="stylesheet" href="{% static 'Styles/Profile.css' %}">
 </head>
@@ -93,21 +94,32 @@
                     <button class="dislike_button" data-post-id="{{ post.id }}">
                         👎 <span class="dislike-count">{{ post.no_of_dislikes }}</span>
                     </button>
-                    <button class="comment_button">💬 0</button>
                     <button class="repost_button">🔄 0</button>
                 </div>
-                    <div class="Comments">
-                        <h2 id="comment_header">Comments</h2>
-                        <div class="comment">
-                            <a href="/profile/{{post.user}}"><img id="pp_comment" src="{{post.user.profile.profileimg.url}}" alt="Profile Icon"></a>
-                            <div class="text_of_comment"><a href="/profile/{{post.user}}"><p class="comment_username">@{{post.user.username}}:</p></a>Comment 1</div>
+
+                <form class="write_a_comment" name="new_comment" data-post-id="{{ post.id }}">
+                    <textarea class="my_comment" name="comment" placeholder="Let everybody know what you think"></textarea>
+                    <button class="new_comment_button" type="submit">⌯⌲</button>
+                </form>
+                    
+                <div class="Comments">
+                    <h2 id="comment_header">Comments</h2>
+                    {% if post.comments.all %}
+                    {% for comment in post.latest_comments %}
+                    <div class="comment">
+                        <a href="/profile/{{comment.user.username}}">
+                            <img id="pp_comment" src="{{comment.user.profile.profileimg.url}}" alt="Profile Icon">
+                        </a>
+                        <div class="text_of_comment">
+                            <a href="/profile/{{comment.user.username}}"><p class="comment_username">@{{comment.user.username}}:</p></a>{{ comment.comment_text }}
                         </div>
-                        <div class="comment">
-                            <img id="pp_comment" src="{{post.user.profile.profileimg.url}}" alt="Profile Icon">
-                            <div class="text_of_comment"><p class="comment_username">@{{post.user.username}}:</p>Hugeass comment aahahahah XDDDDDDD YOUUUUUU Hugeass comment aahahahah XDDDDDDD YOUUUUUU Hugeass comment aahahahah XDDDDDDD YOUUUUUU Hugeass comment aahahahah XDDDDDDD YOUUUUUU
-                            </div>
-                        </div>
+
                     </div>
+                    {% endfor %}
+                    {% else %}
+                    <p class="no_comments">No comments yet...</p>
+                    {% endif %}
+                </div>
             </div>
             {% endfor %}
         </div>

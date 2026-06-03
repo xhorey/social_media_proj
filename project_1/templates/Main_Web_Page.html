@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="icon" type="image/png" href="{% static '/Assets/Mint_firstLogo.png'%}">
-    <title>Main Web Page</title>
+    <title>Home</title>
     <link rel="stylesheet" href="{% static 'Styles/Main_Page.css'%}">
 </head>
 <body>
@@ -64,6 +64,7 @@
                 </button>
                 <button class="repost_button">🔄 0</button>
             </div>
+            
             <form class="write_a_comment" name="new_comment" data-post-id="{{ post.id }}">
                 <textarea class="my_comment" name="comment" placeholder="Let everybody know what you think"></textarea>
                 <button class="new_comment_button" type="submit">⌯⌲</button>

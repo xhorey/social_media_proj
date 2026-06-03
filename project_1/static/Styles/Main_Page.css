@@ -288,7 +288,7 @@ a {
 .my_comment{
     width: 87%;
     margin-right: 8px;
-    height: auto;
+    min-height: 40px;
     resize: none;
     border-radius: 5px;
 }

@@ -135,6 +135,9 @@ def profile(request, pk):
 
     showed_posts = user_posts.order_by('-created_at')
 
+    for post in showed_posts:
+        post.latest_comments = post.comments.order_by('-created_at')[:2]
+
     follower = request.user
     user = user_object
 

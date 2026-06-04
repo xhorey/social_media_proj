@@ -269,5 +269,8 @@ def comment(request):
     new_comment = Comment.objects.create(post=post, user=user, comment_text=comment_text)
     new_comment.save()
 
-    return JsonResponse({"status": "success"})
+    return JsonResponse({"status": "success",
+                         "username": user.username,
+                         "profile_img": user.profile.profileimg.url,
+                         })
 

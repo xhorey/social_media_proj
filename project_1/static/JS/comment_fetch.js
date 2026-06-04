@@ -37,6 +37,40 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data.status);
+
+                form.querySelector(".my_comment").value = "";
+
+                const commentsContainer = form.closest(".posts").querySelector(".Comments");
+    
+                const noComments = commentsContainer.querySelector(".no_comments");
+                if (noComments) {
+                    noComments.remove();
+                }
+
+                const newComment = document.createElement("div");
+                newComment.classList.add("comment");
+
+                 newComment.innerHTML = `
+                    <a href="/profile/${data.username}">
+                        <img id="pp_comment" src="${data.profile_img}" alt="Profile Icon">
+                    </a>
+
+                    <div class="text_of_comment">
+                        <a href="/profile/${data.username}">
+                            <p class="comment_username">@${data.username}:</p>
+                        </a>
+                        ${formData.get("comment")}
+                    </div>
+                 `;
+
+                const firstComment = commentsContainer.querySelector(".comment");
+
+                if (firstComment) {
+                    commentsContainer.insertBefore(newComment, firstComment);
+                } else {
+                    commentsContainer.appendChild(newComment);
+                }
+
             });
         });
     });

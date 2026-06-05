@@ -9,7 +9,8 @@
     <title>Home</title>
     <link rel="stylesheet" href="{% static 'Styles/Main_Page.css'%}">
 </head>
-<body>
+{% load post_filter %}
+<body>  
     <div class="header">
         {% csrf_token %}
         <div class="logo">
@@ -53,7 +54,7 @@
                 <img id="postImage" src="{{post.image.url}}" alt="Sample Post Image">
             </div>
             <div class="post-content">
-                <p class="text-of-post">{{post.text_of_post}}</p>
+                <p class="text-of-post">{{post.text_of_post|hashtags_to_links}}</p>
             </div>
             <div class="post_interactions">
                 <button class="like_button" data-post-id="{{ post.id }}">

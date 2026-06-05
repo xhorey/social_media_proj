@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.http import HttpResponse
-from .models import Profile, Post, LikePost,DislikePost, FollowersCount, Comment
+from .models import Profile, Post, LikePost,DislikePost, FollowersCount, Comment, Hashtag
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
 import json
+import re
 
 def signin(request):
 
@@ -109,9 +110,14 @@ def posting(request):
         image = request.FILES.get('image')
         text_of_post = request.POST['postText']
 
-        
+        tags = re.findall(r"#(\w+)", text_of_post)
 
         new_post = Post.objects.create(user=user, image=image, text_of_post=text_of_post)
+
+        for tag in tags:
+            hashtag, created = Hashtag.objects.get_or_create(name = tag.lower())
+            new_post.hashtags.add(hashtag)
+
         new_post.save()
 
         return redirect('/')
@@ -274,3 +280,14 @@ def comment(request):
                          "profile_img": user.profile.profileimg.url,
                          })
 
+@login_required(login_url='signin')
+def tag_posts(request, tag_name):
+    posts = Post.objects.filter(
+        hashtags__name=tag_name.lower()
+    ).distinct()
+
+    return render(
+        request,
+        "tag_posts.html",
+        {"posts": posts, "tag": tag_name}
+    )

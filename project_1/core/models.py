@@ -14,6 +14,13 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
     
+
+class Hashtag(models.Model):
+    name = models.CharField(max_length=100, unique=True, db_index=True)
+
+    def __str__(self):
+        return self.name
+
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -22,6 +29,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(default=datetime.now)
     no_of_likes = models.IntegerField(default=0)
     no_of_dislikes = models.IntegerField(default=0)
+    hashtags = models.ManyToManyField(Hashtag, blank=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.created_at}"

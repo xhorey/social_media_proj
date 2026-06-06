@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="{% static '/Assets/Mint_firstLogo.png'%}">
     <title>Home</title>
     <link rel="stylesheet" href="{% static 'Styles/Main_Page.css'%}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
 </head>
 {% load post_filter %}
 <body>  
@@ -16,7 +17,12 @@
         <div class="logo">
             <a href="home" ><img id="logo" src="{% static '/Assets/Mint_firstLogo.png'%}" alt= "Webpage Logo"></a>
         </div>
-        <h1 id="MainHeader">Mint</h1>
+
+        <form class="search" method="GET" action="/search/" autocomplete="off">
+            <span class="search-icon material-symbols-outlined">search</span>
+            <input class="search_input" type="search" name="input_search" value="{{ query }}" placeholder="Search" autocomplete="off">
+        </form>
+
         <div class="profile-dropdown-container">
             <div class="add-post">
                 <a class="post-btn" href="posting">

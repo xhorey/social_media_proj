@@ -1,0 +1,23 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" type="image/png" href="{% static '/Assets/Mint_firstLogo.png'%}">
+    <title>Search</title>
+    <link rel="stylesheet" href="{% static 'Styles/search.css'%}">
+</head>
+{% load post_filter %}
+<body>
+    {% for post in posts %}
+    <div class="post">
+        {{ post.text_of_post }}
+    </div>
+    {% empty %}
+    <p>No results found</p>
+    {% endfor %}
+</body>
+</html>

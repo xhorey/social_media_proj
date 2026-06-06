@@ -8,6 +8,7 @@
     <title>Profile</title>
     <link rel="stylesheet" href="{% static 'Styles/Profile.css' %}">
 </head>
+{% load post_filter %}
 <body>
     <div class="header">
         <a href="/home" >
@@ -85,7 +86,7 @@
                     <img id="postImage" src="{{post.image.url}}" alt="Sample Post Image">
                 </div>
                 <div class="post-content">
-                    <p class="text-of-post">{{post.text_of_post}}</p>
+                    <p class="text-of-post">{{post.text_of_post|hashtags_to_links}}</p>
                 </div>
                 <div class="post_interactions">
                     <button class="like_button" data-post-id="{{ post.id }}">

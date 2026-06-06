@@ -1,6 +1,6 @@
 #logo {
-    width: 8em;
-    height: 8em;
+    width: 7em;
+    height: 7em;
     border-radius: 100%;
 }
 
@@ -297,4 +297,27 @@ a {
     border-radius: 25%;
     width: 10%;
     aspect-ratio: 1 / 1;
+}
+
+.search{
+    width: max-content;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    background: transparent;
+    border: none;
+    font-size: 2.5em !important;
+}
+
+.search_input{
+    margin-left: 10px;
+    height:3em;
+    width: 20em;
+    border-radius: 15px;
+}
+
+.search_input::placeholder {
+    text-align: center;
 }

@@ -291,3 +291,13 @@ def tag_posts(request, tag_name):
         "tag_posts.html",
         {"posts": posts, "tag": tag_name}
     )
+
+@login_required(login_url='signin')
+def search(request):
+    query = request.GET.get("input_search", "")
+
+    posts = Post.objects.filter(
+        text_of_post__icontains=query
+    ) if query else Post.objects.none()
+
+    return render(request, "search.html", {'posts': posts, 'query':query})

@@ -15,4 +15,5 @@ urlpatterns = [
     path('follow/', views.follow, name='follow'),
     path('comment/', views.comment, name='comment'),
     path("tag/<str:tag_name>/", views.tag_posts, name="tag_posts"),
+    path('search/', views.search, name='search'),
 ]

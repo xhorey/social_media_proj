@@ -321,3 +321,19 @@ a {
 .search_input::placeholder {
     text-align: center;
 }
+
+
+/* SEARCH PAGE */
+.search_title{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 25px;
+}
+
+.no_result{
+    font-size: 25px;
+}
+
+.hashtag{
+    color: #2d7aed;
+}

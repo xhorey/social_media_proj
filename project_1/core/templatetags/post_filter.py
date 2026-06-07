@@ -10,7 +10,7 @@ def hashtags_to_links(text):
     return mark_safe(
         re.sub(
             r"#(\w+)",
-            r'<a href="/tag/\1/">#\1</a>',
+            r'<a href="/tag/\1/" class="hashtag">#\1</a>',
             text
         )
     )

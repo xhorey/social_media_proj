@@ -296,8 +296,11 @@ def tag_posts(request, tag_name):
 def search(request):
     query = request.GET.get("input_search", "")
 
+    user = request.user
+    user_profile = Profile.objects.get(user=user)
+
     posts = Post.objects.filter(
         text_of_post__icontains=query
-    ) if query else Post.objects.none()
+    ).order_by('-created_at') if query else Post.objects.none()
 
-    return render(request, "search.html", {'posts': posts, 'query':query})
+    return render(request, "search.html", {'posts': posts, 'query':query, 'user_profile': user_profile})

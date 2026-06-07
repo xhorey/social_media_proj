@@ -122,16 +122,15 @@ body{
     background-color: #5799c8;
     color: white;
     border: none;
-    padding: 0.7em 1.5em;
     border-radius: 999px;
     font-weight: bold;
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.2s ease;
     margin-top: 25px;
-    width: 12%;
     aspect-ratio: 16 / 5;
     font-size: clamp(14px, 2vw, 18px);
+    width: clamp(120px, 12%, 200px);
 }
 #postButton:hover{
     background-color: #0572c0;

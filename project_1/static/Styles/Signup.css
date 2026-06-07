@@ -6,7 +6,7 @@
     transition: color 0.3s ease;
 }
 body{
-    background: linear-gradient(to right, #054e4e, #21c0c9);
+    background : #b7bbbb;
 }
 .header{
     display: flex;
@@ -26,7 +26,7 @@ body{
 }
 #MainHeader{
     font-size: 3em;
-    color: white;
+    color: black;
     padding-right: 2em;
 }
 .signup{
@@ -38,8 +38,24 @@ body{
 #signupButton{
     display:flex;
     justify-self: center;
+    background-color: #5799c8;
+    color: white;
+    border: none;
+    border-radius: 999px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 25px;
+    aspect-ratio: 16 / 5;
+    font-size: clamp(14px, 2vw, 18px);
+    width: clamp(120px, 12%, 200px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
 }
 #signupButton:hover{
-    background-color: #ade0ae;
+    background-color: #0572c0;
     transition: background-color 0.3s ease;
 }

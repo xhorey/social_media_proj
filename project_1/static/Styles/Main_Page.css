@@ -272,6 +272,7 @@ a {
 .text_of_comment{
     display: flex;
     flex-direction: column;
+    white-space: normal;
 }
 
 .comment_username{
@@ -300,9 +301,14 @@ a {
 }
 
 .search{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     width: max-content;
     display: flex;
     align-items: center;
+    background-color: white;
+    border-radius: 15px;
 }
 
 .search-icon {
@@ -315,11 +321,9 @@ a {
     margin-left: 10px;
     height:3em;
     width: 20em;
-    border-radius: 15px;
-}
-
-.search_input::placeholder {
-    text-align: center;
+    border: none;
+    background: transparent;
+    outline: none;
 }
 
 

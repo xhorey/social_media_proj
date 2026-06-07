@@ -94,7 +94,7 @@
                     </a>
                     
                     <div class="text_of_comment">
-                        <a href="/profile/{{comment.user.username}}"><p class="comment_username">@{{comment.user.username}}:</p></a>{{ comment.comment_text }}
+                        <a href="/profile/{{comment.user.username}}"><p class="comment_username">@{{comment.user.username}}:</p></a><span class="comment_text">{{ comment.comment_text|hashtags_to_links }}</span>
                     </div>
 
                 </div>

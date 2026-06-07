@@ -284,12 +284,18 @@ def comment(request):
 def tag_posts(request, tag_name):
     posts = Post.objects.filter(
         hashtags__name=tag_name.lower()
-    ).distinct()
+    ).distinct().order_by('-created_at')
+
+    for post in posts:
+        post.latest_comments = post.comments.order_by('-created_at')[:2]
+
+    user = request.user
+    user_profile = Profile.objects.get(user=user)
 
     return render(
         request,
         "tag_posts.html",
-        {"posts": posts, "tag": tag_name}
+        {"posts": posts, "tag": tag_name, 'user_profile':user_profile}
     )
 
 @login_required(login_url='signin')
@@ -302,5 +308,9 @@ def search(request):
     posts = Post.objects.filter(
         text_of_post__icontains=query
     ).order_by('-created_at') if query else Post.objects.none()
+
+    if posts != Post.objects.none():
+        for post in posts:
+            post.latest_comments = post.comments.order_by('-created_at')[:2]
 
     return render(request, "search.html", {'posts': posts, 'query':query, 'user_profile': user_profile})

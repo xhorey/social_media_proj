@@ -22,6 +22,11 @@
         <form class="search" method="GET" action="/search/" autocomplete="off">
             <span class="search-icon material-symbols-outlined">search</span>
             <input class="search_input" type="search" name="input_search" placeholder="Search" autocomplete="off">
+            <select name="filter" class="search_filter">
+                <option value="User">Users</option>
+                <option value="Post">Posts</option>
+                <option value="Hashtag">Hashtags</option>
+            </select>
         </form>
 
         <div class="profile-dropdown-container">
@@ -52,7 +57,9 @@
     </div>
 
     <div class="content">
-        {% for post in posts %}
+        {% if filter == 'Post' %}
+
+        {% for post in content  %}
         <div class="posts">
             <div class="post_header">
                 <a class="user_info" href="/profile/{{post.user}}">
@@ -107,6 +114,43 @@
         {% empty %}
         <p class="no_result">No results found...</p>
         {% endfor %}
+
+        {% elif filter == 'User' %}
+
+        {% for profile in content  %}
+        <div class="profile_found">
+            <div class="left_side">
+                <a href="/profile/{{profile.user.username}}"><div class="profile_icon_found"><img class="profile_icon_source" src="{{ profile.profileimg.url }}" alt="Profile Picture"></div></a>
+                <a href="/profile/{{profile.user.username}}"><div class="profile_username_found">{{profile.user.username}}</div></a>
+            </div>
+            <div class="right_side">
+
+                <div class="no_posts">
+                    Posts: {{profile.number_of_posts}}
+                </div>
+
+                <div class="no_followers">
+                    Followers: {{profile.number_of_followers}}
+                </div>
+            </div>
+            
+        </div>
+        {% empty %}
+        <p class="no_result">No results found...</p>
+        {% endfor %}
+
+        {% elif filter == 'Hashtag' %}
+
+        {% for hashtag in content  %}
+        <div class="hashtag_found">
+            <a class="hashtag_name" href="/tag/{{hashtag.name}}">#{{hashtag.name}}</a> 
+            <div class="posts_w_hashtag">{{hashtag.number_posts}} Posts</div>
+        </div>
+        {% empty %}
+        <p class="no_result">No results found...</p>
+        {% endfor %}
+
+        {% endif %}
     </div>
     <script src="{% static 'JS/like_dislike_fetch.js'%}"></script>
     <script src="{% static 'JS/comment_fetch.js'%}"></script>

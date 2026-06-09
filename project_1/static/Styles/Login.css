@@ -1,9 +1,12 @@
 #NewUser{
     color: black;
+    text-decoration: none;
 }
 #NewUser:hover{
-    color: white;
+    color: #5799c8;
     transition: color 0.3s ease;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
 }
 body{
     background: #b7bbbb;
@@ -48,9 +51,28 @@ body{
     aspect-ratio: 16 / 5;
     font-size: clamp(14px, 2vw, 18px);
     width: clamp(120px, 12%, 200px);
+    margin-bottom: 20px;
 }
 
 #loginButton:hover{
     background-color: #0572c0;
     transition: background-color 0.3s ease;
+}
+
+.form_signin{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.input_field{
+    margin-bottom: 15px;
+    width: 80%;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 1.3em;
 }

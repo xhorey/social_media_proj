@@ -33,13 +33,11 @@
 
         </div>
 
-        <form action="" method="POST">
+        <form class="form_signin" action="" method="POST">
             {% csrf_token %}
-            <label for = "username">Username:</label>
-            <input type="text" id="username" name="username" required><br><br>
-            <label for = "password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
-            <button id="loginButton" type="submit">Login</button><br><br>
+            <input class="input_field" type="text" id="username" placeholder="Username" name="username" required>
+            <input class="input_field" type="password" id="password" placeholder="Password" name="password" required>
+            <button id="loginButton" type="submit">Login</button>
             <a href="/signup" id="NewUser">You don't have an account? Sign up here!</a>
         </form>
 

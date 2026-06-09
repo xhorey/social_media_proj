@@ -301,16 +301,47 @@ def tag_posts(request, tag_name):
 @login_required(login_url='signin')
 def search(request):
     query = request.GET.get("input_search", "")
-
+    search_filter = request.GET.get("filter")
     user = request.user
     user_profile = Profile.objects.get(user=user)
 
-    posts = Post.objects.filter(
-        text_of_post__icontains=query
-    ).order_by('-created_at') if query else Post.objects.none()
+    if search_filter == 'Post':
 
-    if posts != Post.objects.none():
-        for post in posts:
-            post.latest_comments = post.comments.order_by('-created_at')[:2]
+        content = Post.objects.filter(
+            text_of_post__icontains=query
+        ).order_by('-created_at') if query else Post.objects.none()
 
-    return render(request, "search.html", {'posts': posts, 'query':query, 'user_profile': user_profile})
+        if content.exists():
+            for post in content:
+                post.latest_comments = post.comments.order_by('-created_at')[:2]
+
+    elif search_filter == 'User':
+
+        content = Profile.objects.filter(
+            user__username__icontains=query
+        ) if query else Profile.objects.none()
+
+        if content.exists():
+            for profile in content:
+                profile.number_of_followers = len(FollowersCount.objects.filter(user = profile.user))
+                profile.number_of_posts = len(Post.objects.filter(user = profile.user))
+
+
+    elif search_filter == 'Hashtag':
+
+        content = Hashtag.objects.filter(
+            name__icontains=query
+        ) if query else Hashtag.objects.none()
+
+        if content.exists():
+            for tag in content:
+
+                tag.number_posts = len(Post.objects.filter(
+                hashtags__name=tag.name.lower()
+                ).distinct())
+
+        
+
+    
+    
+    return render(request, "search.html", {'content': content, 'query':query, 'user_profile': user_profile, 'filter': search_filter})

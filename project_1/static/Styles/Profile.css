@@ -65,7 +65,10 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-bottom: black double 1px;
+}
+
+.no_posts{
+    font-size: 1.5em;
 }
 
 .mainInfo_profile{

@@ -21,6 +21,11 @@
         <form class="search" method="GET" action="/search/" autocomplete="off">
             <span class="search-icon material-symbols-outlined">search</span>
             <input class="search_input" type="search" name="input_search" value="{{ query }}" placeholder="Search" autocomplete="off">
+            <select name="filter" class="search_filter">
+                <option value="User">Users</option>
+                <option value="Post">Posts</option>
+                <option value="Hashtag">Hashtags</option>
+            </select>
         </form>
 
         <div class="profile-dropdown-container">

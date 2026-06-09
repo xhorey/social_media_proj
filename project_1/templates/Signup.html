@@ -13,7 +13,6 @@
     <div class="header">
         <a href="signin" ><img id="logo" src="{% static '/Assets/Mint_firstLogo.png'%}" alt= "Webpage Logo"></a>
         <h1 id="MainHeader">Sign Up</h1>
-        <h1></h1>
     </div>
     <div class="signup">
         
@@ -33,15 +32,16 @@
 
         </div>
 
-        <form action="" method="POST">
+        <form class="form_signup" action="" method="POST">
             {% csrf_token %}
-            <input type="text" id="username" placeholder="Username" name="username" required><br><br>
-            <input type="email" id="email" placeholder="Email" name="email" required><br><br>
-            <input type="password" id="password" placeholder="Password" name="password" required><br><br>  
-            <input type="password" id="confirmPassword" placeholder="Confirm Password" name="confirmPassword" required><br><br>
-            <button type="submit" id="signupButton">Sign Up</button><br><br>
+            <input type="text" class="input_field" id="username" placeholder="Username" name="username" required>
+            <input type="email" class="input_field" id="email" placeholder="Email" name="email" required>
+            <input type="password" class="input_field" id="password" placeholder="Password" name="password" required> 
+            <input type="password" class="input_field" id="confirmPassword" placeholder="Confirm Password" name="confirmPassword" required>
+            <button type="submit"  id="signupButton">Sign Up</button>
+            <a href="/signin" id="loginLink"> You already have an account? Log in here.</a>
         </form>
-        <a href="/signin" id="loginLink"> You already have an account? Log in here.</a>
+        
     </div>
 </body>
 </html>

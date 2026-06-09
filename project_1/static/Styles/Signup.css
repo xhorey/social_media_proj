@@ -1,9 +1,13 @@
 #loginLink{
     color: black;
+    text-decoration: none;
 }
+
 #loginLink:hover{
-    color: white;
+    color: #5799c8;
     transition: color 0.3s ease;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
 }
 body{
     background : #b7bbbb;
@@ -11,14 +15,16 @@ body{
 .header{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     border-bottom: 2px double black;
     padding: 1em;
+    position: relative;
 }
 #logo{
     width: 8em;
     height: 8em;
     border-radius: 100%;
+    display: block;
 }
 #logo:hover{
     transform: scale(1.1);
@@ -27,7 +33,11 @@ body{
 #MainHeader{
     font-size: 3em;
     color: black;
-    padding-right: 2em;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -45%);
+    margin: 0;
 }
 .signup{
     display: flex;
@@ -46,16 +56,35 @@ body{
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.2s ease;
-    margin-top: 25px;
+    margin-top: 20px;
     aspect-ratio: 16 / 5;
     font-size: clamp(14px, 2vw, 18px);
     width: clamp(120px, 12%, 200px);
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
     
 }
 #signupButton:hover{
-    background-color: #0572c0;
+    background-color: #1d1e1e;
     transition: background-color 0.3s ease;
+}
+
+.form_signup{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.input_field{
+    margin-bottom: 10px;
+    width: 80%;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 1.3em;
 }

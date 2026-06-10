@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
-from django.http import HttpResponse
-from .models import Profile, Post, LikePost,DislikePost, FollowersCount, Comment, Hashtag
+from .models import Profile, Post, LikePost,DislikePost, FollowersCount, Comment, Hashtag, Repost
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
@@ -345,3 +344,28 @@ def search(request):
     
     
     return render(request, "search.html", {'content': content, 'query':query, 'user_profile': user_profile, 'filter': search_filter})
+
+@login_required(login_url='signin')
+def repost(request):
+    user = request.user
+    data = json.loads(request.body)
+    post_id = data.get('post_id')
+
+    post = get_object_or_404(Post, id=post_id)
+
+    repost_filter = Repost.objects.filter(post=post, user=user).first()
+
+    if repost_filter == None:
+
+        new_repost = Repost.objects.create(post=post, user=user)
+        new_repost.save()
+        post.no_of_reposts += 1
+
+    else:
+        repost_filter.delete()
+        post.no_of_reposts -= 1
+
+    post.save()
+    return JsonResponse({
+        "no_reposts": post.no_of_reposts
+    })

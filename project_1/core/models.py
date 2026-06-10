@@ -29,6 +29,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(default=datetime.now)
     no_of_likes = models.IntegerField(default=0)
     no_of_dislikes = models.IntegerField(default=0)
+    no_of_reposts = models.IntegerField(default=0)
     hashtags = models.ManyToManyField(Hashtag, blank=True)
 
     def __str__(self):
@@ -55,6 +56,15 @@ class FollowersCount(models.Model):
     def __str__(self):
         return self.user.username
     
+class Repost(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="reposts")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reposts")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="commenter")

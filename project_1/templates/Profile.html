@@ -95,7 +95,7 @@
                     <button class="dislike_button" data-post-id="{{ post.id }}">
                         👎 <span class="dislike-count">{{ post.no_of_dislikes }}</span>
                     </button>
-                    <button class="repost_button">🔄 0</button>
+                    <button class="repost_button" data-post-id="{{ post.id }}">🔄 <span class="reposts_count">{{ post.no_of_reposts }}</button>
                 </div>
 
                 <form class="write_a_comment" name="new_comment" data-post-id="{{ post.id }}">
@@ -133,5 +133,6 @@
     {% endif %}
     <script src="{% static 'JS/like_dislike_fetch.js'%}"></script>
     <script src="{% static 'JS/comment_fetch.js'%}"></script>
+    <script src="{% static 'JS/repost_fetch.js'%}"></script>
 </body>
 </html>

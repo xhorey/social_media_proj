@@ -243,7 +243,9 @@ body{
 #postImage{
     display: block;
     width: 100%;
-    height: auto;
+    aspect-ratio: 1.91/1;
+    object-fit: cover;
+    object-position: center;
 }
 .postImage{
     width: 100%;

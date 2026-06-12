@@ -233,6 +233,10 @@ body{
     
     padding-left: 3.5%;
     padding-right: 3.5%;
+
+    overflow-wrap: break-word;
+    word-break: break-word;    
+    white-space: normal;
 }
 
 #postImage,

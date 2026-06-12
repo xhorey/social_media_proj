@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 import uuid
 from datetime import datetime
 
@@ -21,33 +22,40 @@ class Hashtag(models.Model):
     def __str__(self):
         return self.name
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True, db_index=True)
+
+    def __str__(self):
+        return self.name
+
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='post_images', blank=True)
     text_of_post = models.TextField()
-    created_at = models.DateTimeField(default=datetime.now)
+    created_at = models.DateTimeField(default=timezone.now)
     no_of_likes = models.IntegerField(default=0)
     no_of_dislikes = models.IntegerField(default=0)
     no_of_reposts = models.IntegerField(default=0)
     hashtags = models.ManyToManyField(Hashtag, blank=True)
+    categories = models.ManyToManyField(Category, related_name="posts", blank=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.created_at}"
 
 class LikePost(models.Model):
     post_id = models.CharField(max_length=500)
-    username = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likes")
 
     def __str__(self):
-        return self.username
+        return self.user.username
     
 class DislikePost(models.Model):
     post_id = models.CharField(max_length=500)
-    username = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="dislikes")
 
     def __str__(self):
-        return self.username
+        return self.user.username
 
 class FollowersCount(models.Model):
     follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
@@ -73,3 +81,12 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+
+    
+class KeyWord(models.Model):
+    word = models.CharField(max_length=100, unique=True, db_index=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="keywords")
+
+    def __str__(self):
+        return self.word

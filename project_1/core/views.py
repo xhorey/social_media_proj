@@ -175,13 +175,15 @@ def profile(request, pk):
 def like_post(request):
     username = request.user.username
 
+    user = User.objects.get(username=username)
+
     data = json.loads(request.body)
     post_id = data.get('post_id')
 
     post = get_object_or_404(Post, id=post_id)
 
-    like_filter = LikePost.objects.filter(post_id=post_id, username=username).first()
-    dislike_filter = DislikePost.objects.filter(post_id=post_id, username=username).first()
+    like_filter = LikePost.objects.filter(post_id=post_id, user=user).first()
+    dislike_filter = DislikePost.objects.filter(post_id=post_id, user=user).first()
 
     if dislike_filter != None:
         dislike_filter.delete()
@@ -189,7 +191,7 @@ def like_post(request):
         
 
     if like_filter == None:
-        new_like = LikePost.objects.create(post_id=post_id, username=username)
+        new_like = LikePost.objects.create(post_id=post_id, user=user)
         new_like.save()
         post.no_of_likes += 1
     else:
@@ -207,13 +209,15 @@ def like_post(request):
 def dislike_post(request):
     username = request.user.username
 
+    user = User.objects.get(username=username)
+
     data = json.loads(request.body)
     post_id = data.get('post_id')
 
     post = get_object_or_404(Post, id=post_id)
 
-    like_filter = LikePost.objects.filter(post_id=post_id, username=username).first()
-    dislike_filter = DislikePost.objects.filter(post_id=post_id, username=username).first()
+    like_filter = LikePost.objects.filter(post_id=post_id, user=user).first()
+    dislike_filter = DislikePost.objects.filter(post_id=post_id, user=user).first()
 
     if like_filter != None:
         like_filter.delete()
@@ -221,7 +225,7 @@ def dislike_post(request):
         
 
     if dislike_filter == None:
-        new_dislike = DislikePost.objects.create(post_id=post_id, username=username)
+        new_dislike = DislikePost.objects.create(post_id=post_id, user=user)
         new_dislike.save()
         post.no_of_dislikes += 1
     else:

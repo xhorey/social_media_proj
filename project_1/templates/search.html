@@ -70,9 +70,11 @@
                     <p>{{post.created_at}}</p>
                 </div>
             </div>
+            {% if post.image %}
             <div class="postImage">
                 <img id="postImage" src="{{post.image.url}}" alt="Sample Post Image">
             </div>
+            {% endif %}
             <div class="post-content">
                 <p class="text-of-post">{{post.text_of_post|hashtags_to_links}}</p>
             </div>

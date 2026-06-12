@@ -353,3 +353,20 @@ a {
 .hashtag{
     color: #2d7aed;
 }
+
+
+.user_reposted{
+    font-weight: bold;
+}
+
+.repost_sign{
+    font-size: 1.5em;
+    background-color: #5799c8;
+    padding: 5px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+}
+
+.repost_border{
+    border: 2px double #5799c8;
+}

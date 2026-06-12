@@ -5,6 +5,7 @@ from .models import Profile, Post, LikePost,DislikePost, FollowersCount, Comment
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
+from itertools import chain
 import json
 import re
 
@@ -135,13 +136,21 @@ def profile(request, pk):
     user_object = User.objects.get(username=pk)
     user_profile = Profile.objects.get(user=user_object)
     user_posts = Post.objects.filter(user=user_object)
+    user_reposts = Repost.objects.filter(user=user_object)
     user_post_length = len(user_posts)
     amount_of_followers = len(FollowersCount.objects.filter(user=user_object))
 
-    showed_posts = user_posts.order_by('-created_at')
+    showed_posts = sorted(
+        chain(user_posts, user_reposts),
+        key=lambda instance: instance.created_at,
+        reverse=True
+    )
 
-    for post in showed_posts:
-        post.latest_comments = post.comments.order_by('-created_at')[:2]
+    for item in showed_posts:
+        if isinstance(item, Repost):
+            item.post.latest_comments = item.post.comments.order_by('-created_at')[:2]
+        else:
+            item.latest_comments = item.comments.order_by('-created_at')[:2]
 
     follower = request.user
     user = user_object

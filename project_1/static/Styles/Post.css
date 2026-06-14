@@ -90,7 +90,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 2em;
     background-color: white;
     width: 60%;
     padding-top: 35px;
@@ -105,6 +104,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 2em;
+}
+
+.error{
+    height: fit-content;
 }
 
 .post-content{
@@ -118,6 +122,14 @@
 body{
     background-color: #b7bbbb;
 }
+
+h5 {
+            color: red;
+            margin: 0;         
+            padding: 0.5em 0;  
+            font-size: 1rem;   
+        }
+
 #postButton{
     background-color: #5799c8;
     color: white;

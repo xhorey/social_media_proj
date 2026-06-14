@@ -35,6 +35,21 @@
         </div>
     </div>
     <form class="post_form" action="" method="POST" enctype="multipart/form-data">
+        <div class="error">
+
+            <style>
+                h5{
+                    color: red;
+                }
+            </style>
+
+            {% for message in messages %}
+            <h5>
+                {{message}}
+            </h5>
+            {% endfor %}
+
+        </div>
         {% csrf_token %}
         <div class="post">
             <div class="post-image">

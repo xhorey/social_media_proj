@@ -106,16 +106,25 @@ def posting(request):
     user_profile = Profile.objects.get(user=request.user)
 
     if request.method == "POST":
+
+        
         user = request.user
         image = request.FILES.get('image')
         text_of_post = request.POST['postText']
 
-        new_post = Post.objects.create(user=user, image=image, text_of_post=text_of_post)
+        if image or text_of_post:
 
-        new_post.auto_assign_categories()
-        new_post.auto_assign_hashtags()
+            new_post = Post.objects.create(user=user, image=image, text_of_post=text_of_post)
 
-        return redirect('/')
+            new_post.auto_assign_categories()
+            new_post.auto_assign_hashtags()
+
+            return redirect('/')
+        
+        else:
+            messages.info(request, 'Post can not be empty!')
+            return redirect('posting')
+
     else:
         return render(request, 'post.html', {'user_profile': user_profile})
     

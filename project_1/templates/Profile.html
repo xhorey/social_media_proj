@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 {% if item.post.image %}
-                <div class="postImage">
+                <div class="postImage {{ item.post.aspect_ratio }}">
                     <img id="postImage" src="{{item.post.image.url}}" alt="Sample Post Image">
                 </div>
                 {% endif %}
@@ -140,7 +140,7 @@
                     </div>
                 </div>
                 {% if item.image %}
-                <div class="postImage">
+                <div class="postImage {{ item.aspect_ratio }}">
                     <img id="postImage" src="{{item.image.url}}" alt="Sample Post Image">
                 </div>
                 {% endif %}

@@ -43,6 +43,16 @@ class Post(models.Model):
     no_of_reposts = models.IntegerField(default=0)
     hashtags = models.ManyToManyField(Hashtag, blank=True)
     categories = models.ManyToManyField(Category, related_name="posts", blank=True)
+    ASPECT_RATIO_CHOICES = [
+        ('landscape', 'Landscape (1.91:1)'),
+        ('square', 'Square (1:1)'),
+        ('portrait', 'Portrait (9:16)'),
+    ]
+    aspect_ratio = models.CharField(
+        max_length=20, 
+        choices=ASPECT_RATIO_CHOICES, 
+        default='landscape' # fallback to your current design
+    )
 
     def __str__(self):
         return f"{self.user.username} - {self.created_at}"

@@ -215,7 +215,7 @@ body{
 #postImage{
     display: block;
     width: 100%;
-    aspect-ratio: 1.91/1;
+    height: 100%;
     object-fit: cover;
     object-position: center;
 }
@@ -223,6 +223,22 @@ body{
     width: 100%;
     border-top: 1px double black;
     border-bottom: 1px double black;
+    overflow: hidden;
+}
+
+.postImage.landscape {
+    aspect-ratio: 1.91 / 1;
+}
+
+.postImage.square {
+    aspect-ratio: 1 / 1;
+}
+
+.postImage.portrait {
+    aspect-ratio: 9 / 16;
+    max-height: none;
+    max-width: 380px;
+    margin: 0 auto;
 }
 
 a {

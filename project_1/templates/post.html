@@ -54,6 +54,15 @@
         <div class="post">
             <div class="post-image">
                 <input type="file" name="image" accept="image/*" id="selectImage">
+
+                <div class="ratio-selector">
+                    <label for="aspect_ratio">Image Crop Size:</label>
+                    <select name="aspect_ratio" id="aspect_ratio">
+                        <option value="landscape">Landscape (1.91:1)</option>
+                        <option value="square">Square (1:1)</option>
+                        <option value="portrait">Portrait (9:16)</option>
+                    </select>
+                </div>
             </div>
             <div class="post-content">
                 <textarea id="postText" name="postText" placeholder="What's on your mind?"></textarea>

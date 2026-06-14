@@ -111,10 +111,16 @@ def posting(request):
         user = request.user
         image = request.FILES.get('image')
         text_of_post = request.POST['postText']
+        aspect_ratio = request.POST.get('aspect_ratio', 'landscape')
 
         if image or text_of_post:
 
-            new_post = Post.objects.create(user=user, image=image, text_of_post=text_of_post)
+            new_post = Post.objects.create(
+                user=user, 
+                image=image, 
+                text_of_post=text_of_post, 
+                aspect_ratio=aspect_ratio
+            )
 
             new_post.auto_assign_categories()
             new_post.auto_assign_hashtags()

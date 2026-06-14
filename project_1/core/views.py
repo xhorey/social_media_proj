@@ -110,15 +110,10 @@ def posting(request):
         image = request.FILES.get('image')
         text_of_post = request.POST['postText']
 
-        tags = re.findall(r"#(\w+)", text_of_post)
-
         new_post = Post.objects.create(user=user, image=image, text_of_post=text_of_post)
 
-        for tag in tags:
-            hashtag, created = Hashtag.objects.get_or_create(name = tag.lower())
-            new_post.hashtags.add(hashtag)
-
-        new_post.save()
+        new_post.auto_assign_categories()
+        new_post.auto_assign_hashtags()
 
         return redirect('/')
     else:

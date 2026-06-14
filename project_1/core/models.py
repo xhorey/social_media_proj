@@ -25,6 +25,10 @@ class Hashtag(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True, db_index=True)
 
+    def save(self, *args, **kwargs):
+        self.name = self.name.lower()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -42,6 +46,40 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.created_at}"
+    
+    def auto_assign_categories(self):
+        import re
+        words = re.findall(r'\b\w+\b', self.text_of_post.lower())
+        if words:
+            from .models import KeyWord
+
+            search_terms = set(words)
+
+            for i in range(len(words) - 1):
+                search_terms.add(f"{words[i]} {words[i+1]}")
+
+            for i in range(len(words) - 2):
+                search_terms.add(f"{words[i]} {words[i+1]} {words[i+2]}")
+
+            matched_kws = KeyWord.objects.filter(word__in=search_terms).select_related('category')
+            categories_to_add = {kw.category for kw in matched_kws}
+            if categories_to_add:
+                self.categories.add(*categories_to_add)
+
+
+    def auto_assign_hashtags(self):
+        import re
+        tags = re.findall(r"#(\w+)", self.text_of_post.lower()) 
+        if tags:
+            hashtags_to_add = []
+            from .models import Hashtag
+            for tag in tags:
+                hashtag, created = Hashtag.objects.get_or_create(name = tag.lower())
+                hashtags_to_add.append(hashtag)
+
+            self.hashtags.add(*hashtags_to_add)
+
+
 
 class LikePost(models.Model):
     post_id = models.CharField(max_length=500)
@@ -87,6 +125,10 @@ class Comment(models.Model):
 class KeyWord(models.Model):
     word = models.CharField(max_length=100, unique=True, db_index=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="keywords")
+
+    def save(self, *args, **kwargs):
+        self.word = self.word.lower()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.word

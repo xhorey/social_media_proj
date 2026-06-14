@@ -53,6 +53,9 @@
         {% csrf_token %}
         <div class="post">
             <div class="post-image">
+                <div id="imagePreviewContainer" class="postImage landscape" style="display: none; margin-bottom: 1em;">
+                    <img id="imagePreview" src="" alt="Image Preview" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                </div>
                 <input type="file" name="image" accept="image/*" id="selectImage">
 
                 <div class="ratio-selector">
@@ -70,4 +73,6 @@
             </div>
         </div>
     </form>
+    <script src="{% static 'JS/preview_script.js'%}"></script>
 </body>
+</html>

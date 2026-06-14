@@ -32,10 +32,20 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .then(res => res.json())
             .then(data => {
-                const post = e.target.closest('.posts');
+                if (data.success && data.no_reposts !== undefined){
+                    const post = e.target.closest('.posts');
+                    if (post) {
+                        const countElement = post.querySelector('.reposts_count');
+                        if (countElement) {
+                            countElement.textContent = data.no_reposts;
+                        }
+                    }
+                }else{
+                    console.warn(data.message);
+                }
 
-                post.querySelector('.reposts_count').textContent = data.no_reposts;
-            });
+            })
+            .catch(err => console.error("Error processing request:", err));
         }
     });
 });

@@ -370,19 +370,28 @@ def repost(request):
 
     post = get_object_or_404(Post, id=post_id)
 
-    repost_filter = Repost.objects.filter(post=post, user=user).first()
+    if post.user != user:
 
-    if repost_filter == None:
+        repost_filter = Repost.objects.filter(post=post, user=user).first()
 
-        new_repost = Repost.objects.create(post=post, user=user)
-        new_repost.save()
-        post.no_of_reposts += 1
+        if repost_filter is None:
 
+            new_repost = Repost.objects.create(post=post, user=user)
+            post.no_of_reposts += 1
+
+        else:
+            repost_filter.delete()
+            post.no_of_reposts -= 1
+
+        post.save()
+
+        return JsonResponse({
+            "success": True,
+            "no_reposts": post.no_of_reposts
+        })
     else:
-        repost_filter.delete()
-        post.no_of_reposts -= 1
-
-    post.save()
-    return JsonResponse({
-        "no_reposts": post.no_of_reposts
-    })
+        return JsonResponse({
+            "success": False,
+            "message": "can't self repost",
+            "no_reposts": post.no_of_reposts
+        }, status=400)

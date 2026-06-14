@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
-from .models import Profile, Post, LikePost,DislikePost, FollowersCount, Comment, Hashtag, Repost
+from .models import Profile, Post, LikePost,DislikePost, FollowersCount, Comment, Hashtag, Repost, UserPreferences, UserPreferredCategory
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
@@ -200,10 +200,27 @@ def like_post(request):
         post.no_of_dislikes -= 1
         
 
-    if like_filter == None:
-        new_like = LikePost.objects.create(post_id=post_id, user=user)
-        new_like.save()
+    if like_filter is None:
+
+        LikePost.objects.create(post_id=post_id, user=user)
+
         post.no_of_likes += 1
+
+        user_preferences, created = UserPreferences.objects.get_or_create(user=user)
+
+        post_categories = post.categories.all()
+
+        if post_categories.exists():
+            for category in post_categories:
+
+                relationship, rel_created = UserPreferredCategory.objects.get_or_create(
+                preferences = user_preferences, 
+                category=category
+                )
+                
+                relationship.interest_score += 5
+                relationship.save()
+
     else:
         like_filter.delete()
         post.no_of_likes -= 1

@@ -142,3 +142,21 @@ class KeyWord(models.Model):
 
     def __str__(self):
         return self.word
+    
+class UserPreferences(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="preferences")
+    
+    categories = models.ManyToManyField(Category, through='UserPreferredCategory', blank=True)
+
+    def __str__(self):
+        return f"{self.user.username}"
+
+class UserPreferredCategory(models.Model):
+    preferences = models.ForeignKey(UserPreferences, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    
+    interest_score = models.IntegerField(default=0) 
+    last_interacted = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.preferences.user.username} - {self.category.name} ({self.interest_score})"

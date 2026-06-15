@@ -192,7 +192,7 @@ def like_post(request):
 
     post = get_object_or_404(Post, id=post_id)
 
-    like_filter = LikePost.objects.filter(post_id=post_id, user=user).first()
+    like_record, created = LikePost.objects.get_or_create(post_id=post_id, user=user)
     dislike_filter = DislikePost.objects.filter(post_id=post_id, user=user).first()
 
     if dislike_filter != None:
@@ -200,32 +200,34 @@ def like_post(request):
         post.no_of_dislikes -= 1
         
 
-    if like_filter is None:
-
-        LikePost.objects.create(post_id=post_id, user=user)
+    if created or not like_record.is_active:
 
         post.no_of_likes += 1
+        like_record.is_active = True
 
-        user_preferences, created = UserPreferences.objects.get_or_create(user=user)
+        if created:
 
-        post_categories = post.categories.all()
+            user_preferences, created = UserPreferences.objects.get_or_create(user=user)
 
-        if post_categories.exists():
-            for category in post_categories:
+            post_categories = post.categories.all()
 
-                relationship, rel_created = UserPreferredCategory.objects.get_or_create(
-                preferences = user_preferences, 
-                category=category
-                )
-                
-                relationship.interest_score += 5
-                relationship.save()
+            if post_categories.exists():
+                for category in post_categories:
+
+                    relationship, rel_created = UserPreferredCategory.objects.get_or_create(
+                    preferences = user_preferences, 
+                    category=category
+                    )
+                    
+                    relationship.interest_score += 5
+                    relationship.save()
 
     else:
-        like_filter.delete()
+        like_record.is_active = False
         post.no_of_likes -= 1
 
     post.save()
+    like_record.save()
 
     return JsonResponse({
         "likes": post.no_of_likes,
@@ -246,20 +248,20 @@ def dislike_post(request):
     like_filter = LikePost.objects.filter(post_id=post_id, user=user).first()
     dislike_filter = DislikePost.objects.filter(post_id=post_id, user=user).first()
 
-    if like_filter != None:
-        like_filter.delete()
+    if like_filter != None and like_filter.is_active:
+        like_filter.is_active = False
         post.no_of_likes -= 1
         
 
     if dislike_filter == None:
-        new_dislike = DislikePost.objects.create(post_id=post_id, user=user)
-        new_dislike.save()
+        DislikePost.objects.create(post_id=post_id, user=user)
         post.no_of_dislikes += 1
     else:
         dislike_filter.delete()
         post.no_of_dislikes -= 1
 
     post.save()
+    like_filter.save()
     
     return JsonResponse({
         "likes": post.no_of_likes,
@@ -311,8 +313,19 @@ def comment(request):
     
     comment_text = request.POST.get("comment")
 
-    new_comment = Comment.objects.create(post=post, user=user, comment_text=comment_text)
-    new_comment.save()
+    Comment.objects.create(post=post, user=user, comment_text=comment_text)
+
+    user_preferences, created = UserPreferences.objects.get_or_create(user=user)
+
+    post_categories = post.categories.all()
+
+    if post_categories.exists():
+        for category in post_categories:
+
+                relationship, rel_created = UserPreferredCategory.objects.get_or_create(preferences = user_preferences, category=category)
+
+                relationship.interest_score += 25
+                relationship.save()
 
     return JsonResponse({"status": "success",
                          "username": user.username,
@@ -399,8 +412,19 @@ def repost(request):
 
         if repost_filter is None:
 
-            new_repost = Repost.objects.create(post=post, user=user)
+            Repost.objects.create(post=post, user=user)
             post.no_of_reposts += 1
+            user_preferences, created = UserPreferences.objects.get_or_create(user=user)
+
+            post_categories = post.categories.all()
+
+            if post_categories.exists():
+                for category in post_categories:
+
+                        relationship, rel_created = UserPreferredCategory.objects.get_or_create(preferences = user_preferences, category=category)
+
+                        relationship.interest_score += 50
+                        relationship.save()
 
         else:
             repost_filter.delete()

@@ -118,6 +118,8 @@ class Repost(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="reposts")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reposts")
 
+    is_active = models.BooleanField(default=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

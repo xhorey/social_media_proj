@@ -146,7 +146,7 @@ def profile(request, pk):
     user_object = User.objects.get(username=pk)
     user_profile = Profile.objects.get(user=user_object)
     user_posts = Post.objects.filter(user=user_object)
-    user_reposts = Repost.objects.filter(user=user_object)
+    user_reposts = Repost.objects.filter(user=user_object, is_active = True)
     user_post_length = len(user_posts)
     amount_of_followers = len(FollowersCount.objects.filter(user=user_object))
 
@@ -408,29 +408,34 @@ def repost(request):
 
     if post.user != user:
 
-        repost_filter = Repost.objects.filter(post=post, user=user).first()
+        repost_filter, created = Repost.objects.get_or_create(post=post, user=user)
 
-        if repost_filter is None:
+        if created or not repost_filter.is_active:
 
-            Repost.objects.create(post=post, user=user)
+            if created:
+            
+                user_preferences, created = UserPreferences.objects.get_or_create(user=user)
+
+                post_categories = post.categories.all()
+
+                if post_categories.exists():
+                    for category in post_categories:
+
+                            relationship, rel_created = UserPreferredCategory.objects.get_or_create(preferences = user_preferences, category=category)
+
+                            relationship.interest_score += 50
+                            relationship.save()
+
             post.no_of_reposts += 1
-            user_preferences, created = UserPreferences.objects.get_or_create(user=user)
+            repost_filter.is_active = True
 
-            post_categories = post.categories.all()
-
-            if post_categories.exists():
-                for category in post_categories:
-
-                        relationship, rel_created = UserPreferredCategory.objects.get_or_create(preferences = user_preferences, category=category)
-
-                        relationship.interest_score += 50
-                        relationship.save()
 
         else:
-            repost_filter.delete()
+            repost_filter.is_active = False
             post.no_of_reposts -= 1
 
         post.save()
+        repost_filter.save()
 
         return JsonResponse({
             "success": True,

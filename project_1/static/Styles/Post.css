@@ -164,17 +164,25 @@ h5 {
     height: 100%;
     object-fit: cover;
     object-position: center;
+    
 }
 .postImage{
     width: 100%;
-    border-top: 1px double black;
-    border-bottom: 1px double black;
+    border: 3px solid #5799c8;
     overflow: hidden;
 }
 
 .post-image {
     width: 100%; 
     max-width: 500px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.hidden{
+    display: none;
 }
 
 .postImage.landscape {
@@ -190,4 +198,57 @@ h5 {
     max-height: none;
     max-width: 380px;
     margin: 0 auto;
+}
+
+#deleteImageButton{
+    background-color: #d04141;
+    color: white;
+    border: none;
+    padding: 0.7em 1.5em;
+    border-radius: 5px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: 10px;
+}
+#deleteImageButton:hover{
+    background-color: #ed0000;
+    transition: background-color 0.3s ease;
+}
+
+#selectImageButton{
+    background-color: #5799c8;
+    color: white;
+    border: none;
+    padding: 0.7em 1.5em;
+    border-radius: 5px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+#aspect_ratio{
+    text-align: center;
+    border: none;
+    background-color: #b7bbbb;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font-size: 15px;
+    padding: 5px;
+    border-radius: 15px;
+    flex: 0 0 auto;
+    width: 160px;
+    margin-right: 5px;
+}
+
+#selectImageButton:hover{
+    background-color: #0572c0;
+    transition: background-color 0.3s ease;
+}
+
+.ratio-selector{
+    margin-top: 15px;
 }

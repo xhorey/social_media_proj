@@ -56,10 +56,21 @@
                 <div id="imagePreviewContainer" class="postImage landscape" style="display: none; margin-bottom: 1em;">
                     <img id="imagePreview" src="" alt="Image Preview" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: center;">
                 </div>
-                <input type="file" name="image" accept="image/*" id="selectImage">
+                <input type="file" name="image" accept="image/*" id="selectImage" hidden>
+                <div class="buttons_manage_pics">
+                    <button type="button" id="selectImageButton">
+                        Add Image
+                    </button> 
 
-                <div class="ratio-selector">
-                    <label for="aspect_ratio">Image Crop Size:</label>
+                    <button type="button" class="hidden" id="deleteImageButton">
+                        Empty Image
+                    </button>
+                </div>
+                  
+
+
+                <div class="ratio-selector hidden">
+                    <label for="aspect_ratio">Image Orientation:</label>
                     <select name="aspect_ratio" id="aspect_ratio">
                         <option value="landscape">Landscape (1.91:1)</option>
                         <option value="square">Square (1:1)</option>

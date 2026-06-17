@@ -100,6 +100,23 @@ def settings(request):
     
     return render(request, 'settings.html', {'user_profile': user_profile})
 
+
+@login_required(login_url='signin')
+def delete_post(request):
+    if request.method == "POST":
+        user = request.user
+        data = json.loads(request.body)
+        post_id = data.get('post_id')
+        post = Post.objects.get(id = post_id)
+        if post.user == user:
+            post.delete()
+        return JsonResponse({
+            "success": True
+        })
+
+        
+
+
 @login_required(login_url='signin')
 def posting(request):
 
@@ -143,6 +160,7 @@ def logout(request):
 @login_required(login_url='signin')
 @never_cache
 def profile(request, pk):
+    current_user = request.user
     user_object = User.objects.get(username=pk)
     user_profile = Profile.objects.get(user=user_object)
     user_posts = Post.objects.filter(user=user_object)
@@ -178,6 +196,7 @@ def profile(request, pk):
         'followers_count': amount_of_followers,
         'button_text': button_text,
         'posts_to_show': showed_posts,
+        'current_user': current_user
     }
     return render(request, 'Profile.html', context)
 

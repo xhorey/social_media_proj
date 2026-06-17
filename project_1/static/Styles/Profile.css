@@ -268,26 +268,61 @@ a {
     justify-content: center;
 }
 
+.delete_button{
+    margin-top: 1em;
+    font-size: large;
+    border-radius: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 4px;
+    width: 3em;
+    background-color: rgb(230, 112, 112);
+}
+
 .like_button {
     margin-top: 1em;
-    border-radius: 5%;
-    padding: 0;
     font-size: large;
     margin-right: 1em;
     border-radius: 100%;
     aspect-ratio: 1 / 1;
     padding: 4px;
+    width: 3em;
+}
+
+.question_delete{
+    display: none;
+}
+
+.question_delete.show {
+    display: block;
+}
+
+.answer_yes{
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #cf1818;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+.answer_no{
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #44d94c;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .dislike_button {
     margin-top: 1em;
-    border-radius: 5%;
-    padding: 0;
     font-size: large;
     margin-right: 1em;
     border-radius: 100%;
     aspect-ratio: 1 / 1;
     padding: 4px;
+    width: 3em;
 }
 
 

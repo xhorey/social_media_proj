@@ -154,8 +154,26 @@
                     <button class="dislike_button" data-post-id="{{ item.id }}">
                         👎 <span class="dislike-count">{{ item.no_of_dislikes }}</span>
                     </button>
+                    {% if item.user == current_user %}
+                    <button class="delete_button">
+                        🗑️
+                    </button>
+                    {% else %}
                     <button class="repost_button" data-post-id="{{ item.id }}">🔄 <span class="reposts_count">{{ item.no_of_reposts }}</button>
+                    {% endif %}
                 </div>
+                {% if item.user == current_user %}
+                <div class="question_delete">
+                    {% csrf_token %}
+                    <span>You sure you want to delete this post?</span>
+                    <button type="button" class="answer_yes" data-post-id="{{ item.id }}">
+                        Yes
+                    </button>
+                    <button type="button" class="answer_no">
+                        No
+                    </button>
+                </div>
+                {% endif %}
 
                 <form class="write_a_comment" name="new_comment" data-post-id="{{ item.id }}">
                     <textarea class="my_comment" name="comment" placeholder="Let everybody know what you think"></textarea>
@@ -194,5 +212,6 @@
     <script src="{% static 'JS/like_dislike_fetch.js'%}"></script>
     <script src="{% static 'JS/comment_fetch.js'%}"></script>
     <script src="{% static 'JS/repost_fetch.js'%}"></script>
+    <script src="{% static 'JS/post_delete.js'%}"></script>
 </body>
 </html>

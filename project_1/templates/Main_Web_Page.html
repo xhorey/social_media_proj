@@ -76,7 +76,12 @@
                 <button class="dislike_button" data-post-id="{{ post.id }}">
                     👎 <span class="dislike-count">{{ post.no_of_dislikes }}</span>
                 </button>
-                <button class="repost_button" data-post-id="{{ post.id }}">🔄 <span class="reposts_count">{{ post.no_of_reposts }}</button>
+                {% if post.user != user %}
+                <button class="repost_button" data-post-id="{{ post.id }}">
+                    🔄 <span class="reposts_count">{{ post.no_of_reposts }}</span>
+
+                </button>
+                {% endif %}
             </div>
             
             <form class="write_a_comment" name="new_comment" data-post-id="{{ post.id }}">

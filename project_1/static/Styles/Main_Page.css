@@ -169,6 +169,7 @@ body{
     font-size: large;
     border-radius: 100%;
     aspect-ratio: 1 / 1;
+    margin-left: 1em;
 }
 .like_button {
     margin-top: 1em;
@@ -179,13 +180,14 @@ body{
     border-radius: 100%;
     aspect-ratio: 1 / 1;
     padding: 4px;
+
 }
 .dislike_button {
     margin-top: 1em;
     border-radius: 5%;
     padding: 0;
     font-size: large;
-    margin-right: 1em;
+    
     border-radius: 100%;
     aspect-ratio: 1 / 1;
     padding: 4px;

@@ -19,12 +19,22 @@
         {% csrf_token %}
         <div class="Settings">
             <img class="profilePicture" src="{{user_profile.profileimg.url}}" alt="Profile Picture">
-            <input type="file" name="image" accept="image/*" id="selectImage">
+            <input type="file" name="image" accept="image/*" id="selectImage" hidden>
+            <div class="buttons_manage_icon">
+                    <button type="button" id="selectImageButton">
+                        Add Image
+                    </button> 
+
+                    <button type="button" class="hidden" id="resetImageButton">
+                        Reset
+                    </button>
+                </div>
             <label class="bio_lbl">Bio</label> 
             <textarea class="bio" name="bio" placeholder="Bio">{{user_profile.bio}}</textarea>
             <button type="submit" class="SettingsButton">Save Changes</button>
         </div>
     </form>
     <script src="{% static 'JS/settings_submit_fetch.js' %}"></script>
+    <script src="{% static 'JS/settings_preview.js' %}"></script>
 </body>
 </html>

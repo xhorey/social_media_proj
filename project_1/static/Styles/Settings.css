@@ -75,14 +75,55 @@ body{
     width: 50%;
     height: auto;
     aspect-ratio: 1 / 1;
-    object-fit: cover;
     border-radius: 50%;
     margin-bottom: 1em;
 }
 .profilePicture:hover{
-    transform: scale(1.1);
+    transform: scale(1.04);
     transition: transform 0.3s ease;
 }
 #selectImage{
     margin-bottom: 1em;
+}
+
+.hidden{
+    display: none;
+}
+
+#selectImageButton{
+    background-color: #5799c8;
+    color: white;
+    border: none;
+    padding: 0.7em 1.5em;
+    border-radius: 5px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#selectImageButton:hover{
+    background-color: #0572c0;
+    transition: background-color 0.3s ease;
+}
+
+#resetImageButton{
+    background-color: #d04141;
+    color: white;
+    border: none;
+    padding: 0.7em 1.5em;
+    border-radius: 5px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: 10px;
+}
+#resetImageButton:hover{
+    background-color: #ed0000;
+    transition: background-color 0.3s ease;
+}
+
+.buttons_manage_icon{
+    margin-bottom: 15px;
 }

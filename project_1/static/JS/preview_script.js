@@ -6,10 +6,15 @@ const imageInput = document.getElementById('selectImage');
 const imageButton = document.getElementById('selectImageButton');
 const divSelector = document.querySelector('.ratio-selector'); 
 const deleteImgButton = document.getElementById('deleteImageButton');
-
+const textarea = document.getElementById('postText');
 
 imageButton.addEventListener('click', () => {
     imageInput.click();
+});
+
+textarea.addEventListener('input', function () {
+    this.style.height = 'auto'; 
+    this.style.height = this.scrollHeight + 'px'; 
 });
 
 deleteImgButton.addEventListener('click', () => {

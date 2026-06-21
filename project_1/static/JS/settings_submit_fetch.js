@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
 
     form.addEventListener("submit", (e) => {
-        e.preventDefault(); // STOP normal reload
+        e.preventDefault();
 
         const formData = new FormData(form);
 
@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             document.querySelector('.bio').textContent = data.bio;
             document.querySelector('.profilePicture').src = data.image_url;
+            document.getElementById('bannerPicture').src = data.banner_url;
         });
     });
 });

@@ -56,6 +56,26 @@ body{
     color: white;
 }
 
+.banner_lbl{
+    display: block;  
+    background-color: #5799c8;
+    width: 10%;
+    text-align: center; 
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    color: white;
+    padding: 8px;
+}
+
+#bannerPicture {
+    width: 90%;     
+    max-width: 100%;
+    height: auto; 
+    margin-bottom: 1em;
+    object-fit: cover;
+    aspect-ratio: 7/1;
+}
+
 .SettingsButton{
     background-color: #5799c8;
     color: white;
@@ -66,6 +86,7 @@ body{
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.2s ease;
+    margin-top: 20px;
 }
 .SettingsButton:hover{
     background-color: #0572c0;
@@ -88,6 +109,23 @@ body{
 
 .hidden{
     display: none;
+}
+
+#selectBannerButton{
+    background-color: #5799c8;
+    color: white;
+    border: none;
+    padding: 0.7em 1.5em;
+    border-radius: 5px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#selectBannerButton:hover{
+    background-color: #0572c0;
+    transition: background-color 0.3s ease;
 }
 
 #selectImageButton{
@@ -120,6 +158,23 @@ body{
     margin-left: 10px;
 }
 #resetImageButton:hover{
+    background-color: #ed0000;
+    transition: background-color 0.3s ease;
+}
+
+#resetBannerButton{
+    background-color: #d04141;
+    color: white;
+    border: none;
+    padding: 0.7em 1.5em;
+    border-radius: 5px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: 10px;
+}
+#resetBannerButton:hover{
     background-color: #ed0000;
     transition: background-color 0.3s ease;
 }

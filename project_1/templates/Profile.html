@@ -19,7 +19,9 @@
     
     <div class="profile_content">
 
-        <div class="banner"></div>
+        <div class="banner">
+            <img id="profile_banner" src="{{user_profile.banner.url}}" alt="Banner Picture">
+        </div>
 
         {% csrf_token %}
         <div class="mainInfo_profile">

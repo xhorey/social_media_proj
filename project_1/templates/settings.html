@@ -21,16 +21,29 @@
             <img class="profilePicture" src="{{user_profile.profileimg.url}}" alt="Profile Picture">
             <input type="file" name="image" accept="image/*" id="selectImage" hidden>
             <div class="buttons_manage_icon">
-                    <button type="button" id="selectImageButton">
-                        Add Image
-                    </button> 
+                <button type="button" id="selectImageButton">
+                    Add Image
+                </button> 
 
-                    <button type="button" class="hidden" id="resetImageButton">
-                        Reset
-                    </button>
-                </div>
+                <button type="button" class="hidden" id="resetImageButton">
+                    Reset
+                </button>
+            </div>
             <label class="bio_lbl">Bio</label> 
             <textarea class="bio" name="bio" placeholder="Bio">{{user_profile.bio}}</textarea>
+            <label class="banner_lbl">Banner</label>
+            <img id="bannerPicture" src="{{user_profile.banner.url}}" alt="Banner Picture">
+            <input type="file" name="banner" accept="image/*" id="selectBanner" hidden> 
+            <div class="buttons_manage_icon">
+                <button type="button" id="selectBannerButton">
+                    Add Banner
+                </button> 
+
+                <button type="button" class="hidden" id="resetBannerButton">
+                    Reset
+                </button>
+            </div>
+
             <button type="submit" class="SettingsButton">Save Changes</button>
         </div>
     </form>

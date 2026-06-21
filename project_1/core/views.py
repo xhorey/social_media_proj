@@ -77,26 +77,23 @@ def signup(request):
 def settings(request):
     user_profile = Profile.objects.get(user=request.user)
     if request.method == 'POST':
-        if request.FILES.get('image') == None:
-            image = user_profile.profileimg
-            bio = request.POST['bio']
 
-            user_profile.profileimg = image
-            user_profile.bio = bio
-
-            user_profile.save()
         if request.FILES.get('image') != None:
             image = request.FILES.get('image')
-            bio = request.POST['bio']
-
             user_profile.profileimg = image
-            user_profile.bio  = bio
 
-            user_profile.save()
+        if request.FILES.get('banner') != None:
+            banner = request.FILES.get('banner')
+            user_profile.banner = banner
+
+        
+        user_profile.bio  = request.POST['bio']
+        user_profile.save()
 
         return JsonResponse({'status': 'ok',
                              'bio': user_profile.bio,
-                             'image_url': user_profile.profileimg.url})
+                             'image_url': user_profile.profileimg.url,
+                             'banner_url': user_profile.banner.url})
     
     return render(request, 'settings.html', {'user_profile': user_profile})
 

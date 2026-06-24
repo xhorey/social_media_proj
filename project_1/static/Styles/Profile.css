@@ -10,6 +10,14 @@
     border-radius: 100%;
 }
 
+.username_text{
+    color: var(--text-color);
+}
+
+.no_comments{
+    color: var(--text-color);
+}
+
 #logo:hover {
     transform: scale(1.1);
     transition: transform 0.3s ease;
@@ -29,6 +37,7 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    color: var(--text-color);
 }
 
 #profilePicture {
@@ -48,7 +57,7 @@
 }
 
 body{
-    background-color: #b7bbbb;
+    background-color: var(--body-color);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -95,6 +104,7 @@ body{
     flex-direction: column;
     align-items: center;
     gap: 3px;
+    color: var(--text-color);
 }
 
 .posts_number p {
@@ -106,6 +116,7 @@ body{
     flex-direction: column;
     align-items: center;
     gap: 3px;
+    color: var(--text-color);
 }
 
 .followers_number p {
@@ -121,6 +132,7 @@ body{
     width: 100%;
     padding-left: 35px;
     position: relative;
+    color: var(--text-color);
 }
 
 .bio_div::after {
@@ -142,7 +154,7 @@ body{
 }
 
 .follow_button_style{
-    background-color: #5799c8;
+    background-color: var(--buttons);
     color: white;
     border: none;
     padding: 0.7em 1.5em;
@@ -166,7 +178,7 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-color: var(--box-bg);
     margin-bottom: 35px;
     width: 60%;  
     max-width: 700px;
@@ -206,12 +218,14 @@ body{
 
 .username_over_post{
     padding-left: 5%;
+    color: var(--text-color);
 }
 
 .post_time{
     display: flex;
     align-items: center;
     padding-right: 2%;
+    color: var(--text-color);
 }
 
 #postImage,
@@ -265,6 +279,7 @@ a {
     
     padding-left: 3.5%;
     padding-right: 3.5%;
+    color: var(--text-color);
 }
 
 .post_interactions{
@@ -297,6 +312,7 @@ a {
 
 .question_delete{
     display: none;
+    color: var(--text-color);
 }
 
 .question_delete.show {
@@ -354,7 +370,7 @@ a {
     flex-direction: column;
     align-items: flex-start;
     margin-top: 1em;
-    background-color: lightgray;
+    background-color: var(--comments-block);
     padding: 0.5em;
     border-radius: 20px;
     margin-bottom: 0.5em;
@@ -372,6 +388,10 @@ a {
     margin-bottom: 20px;
 }
 
+#comment_header{
+    color: var(--text-color);
+}
+
 #pp_comment{
     width: 2em;
     height: 2em;
@@ -383,6 +403,7 @@ a {
 .text_of_comment{
     display: flex;
     flex-direction: column;
+    color: var(--text-color);
 }
 
 .comment_username{
@@ -417,16 +438,18 @@ a {
 
 .user_reposted{
     font-weight: bold;
+    color: var(--text-color);
 }
 
 .repost_sign{
     font-size: 1.5em;
-    background-color: #5799c8;
+    background-color: var(--repost);
+    color: var(--text-color);
     padding: 5px;
     border-top-right-radius: 15px;
     border-top-left-radius: 15px;
 }
 
 .repost_border{
-    border: 2px double #5799c8;
+    border: 2px double var(--repost);
 }

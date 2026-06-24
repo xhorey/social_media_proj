@@ -32,6 +32,7 @@
 
 #MainHeader {
     font-size: 2em;
+    color: var(--text-color);
 }
 
 .content {
@@ -90,7 +91,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-color: var(--box-bg);
     width: 60%;
     padding-top: 35px;
     padding-bottom: 35px;
@@ -118,9 +119,10 @@
     justify-content: center;
     margin-top: 1em;
     width: 80%;
+
 }
 body{
-    background-color: #b7bbbb;
+    background-color: var(--body-color);
 }
 
 h5 {
@@ -131,7 +133,7 @@ h5 {
         }
 
 #postButton{
-    background-color: #5799c8;
+    background-color: var(--buttons);
     color: white;
     border: none;
     border-radius: 999px;
@@ -157,6 +159,8 @@ h5 {
     resize: none;
     box-sizing: border-box;
     font-size: 18px;
+    background-color: var(--text-content-bg);
+    color: var(--text-color);
 }
     
 
@@ -220,7 +224,7 @@ h5 {
 }
 
 #selectImageButton{
-    background-color: #5799c8;
+    background-color: var(--buttons);
     color: white;
     border: none;
     padding: 0.7em 1.5em;

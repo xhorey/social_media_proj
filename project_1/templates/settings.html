@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="{% static '/Assets/Mint_firstLogo.png'%}">
     <title>Settings</title>
     <link rel="stylesheet" href="{% static '/Styles/Settings.css' %}">
+    <link rel="stylesheet" href="{% static '/Styles/theme.css' %}">
 </head>
 <body>
     <div class="header">
@@ -47,6 +48,9 @@
             <button type="submit" class="SettingsButton">Save Changes</button>
         </div>
     </form>
+    <div class="button_container">
+        <button type="button" id="dark_button">Dark theme</button>
+    </div>
     <script src="{% static 'JS/settings_submit_fetch.js' %}"></script>
     <script src="{% static 'JS/settings_preview.js' %}"></script>
 </body>

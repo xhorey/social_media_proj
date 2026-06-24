@@ -1,0 +1,23 @@
+:root {
+    --body-color: #b7bbbb;
+    --text-color: black;
+    --box-bg: white;
+    --buttons: #5799c8;
+    --theme-switch: black;
+    --theme-color: white;
+    --comments-block: lightgray;
+    --repost: #5799c8;
+    --text-content-bg: #white;
+}
+
+[data-theme="dark"] {
+    --body-color: #121212;
+    --text-color: white;
+    --box-bg: #1f1f1f;
+    --buttons: #303030;
+    --theme-switch: white;
+    --theme-color: black;
+    --comments-block: black;
+    --repost: black;
+    --text-content-bg: #303030;
+}

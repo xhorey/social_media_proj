@@ -19,17 +19,6 @@
     position: relative;
 }
 
-#MainHeader {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-
-    margin: 0;
-
-    width: fit-content;
-}
-
 #pp {
     width: 3em;
     height: 3em;
@@ -40,7 +29,10 @@
 
 .username_over_post{
     padding-left: 5%;
+    color: var(--text-color);
 }
+
+
 
 #MainHeader {
     font-size: 2em;
@@ -105,7 +97,7 @@
     flex-direction: column;
     align-items: flex-start;
     margin-top: 1em;
-    background-color: lightgray;
+    background-color: var(--comments-block);
     padding: 0.5em;
     border-radius: 20px;
     margin-bottom: 0.5em;
@@ -123,7 +115,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-color: var(--box-bg);
     margin-bottom: 35px;
     width: 60%;  
     max-width: 700px;
@@ -140,7 +132,7 @@
     align-items: center;
 }
 #addPostButton {
-    background-color: #5799c8;
+    background-color: var(--buttons);
     color: white;
     border: none;
     padding: 0.7em 1.5em;
@@ -159,7 +151,7 @@
 
 
 body{
-    background-color: #b7bbbb;
+    background-color: var(--body-color)
 }
 
 .repost_button {
@@ -219,8 +211,12 @@ body{
     display: flex;
     align-items: center;
     padding-right: 2%;
+    color: var(--text-color);
 }
 
+.no_result{
+    color: var(--text-color);
+}
 
 
 .post-content {
@@ -235,6 +231,7 @@ body{
     
     padding-left: 3.5%;
     padding-right: 3.5%;
+    color: var(--text-color);
 
     overflow-wrap: break-word;
     word-break: break-word;    
@@ -285,6 +282,14 @@ a {
     margin-bottom: 20px;
 }
 
+#comment_header{
+    color: var(--text-color);
+}
+
+.no_comments{
+    color: var(--text-color);
+}
+
 #pp_comment{
     width: 2em;
     height: 2em;
@@ -297,6 +302,7 @@ a {
     display: flex;
     flex-direction: column;
     white-space: normal;
+    color: var(--text-color);
 }
 
 .comment_username{
@@ -356,6 +362,7 @@ a {
     text-align: center;
     margin-top: 20px;
     font-size: 25px;
+    color: var(--text-color);
 }
 
 .no_result{

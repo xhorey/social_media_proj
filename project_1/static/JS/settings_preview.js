@@ -8,6 +8,18 @@ const bannerInput = document.getElementById('selectBanner');
 const banner = document.getElementById('bannerPicture');
 const resetBannerButton = document.getElementById('resetBannerButton');
 const initalBanner = banner.src;
+const themeChange = document.getElementById('dark_button');
+const html = document.documentElement;
+
+html.dataset.theme = localStorage.getItem("theme") || "light";
+
+if (html.dataset.theme === "light"){
+    themeChange.textContent = "Dark theme"
+
+}else{
+    themeChange.textContent = "Light theme"
+}
+
 
 
 imageButton.addEventListener('click', () => {
@@ -66,4 +78,17 @@ resetBannerButton.addEventListener('click', () => {
     resetBannerButton.classList.add('hidden');
     bannerButton.textContent = "Add Banner"
     bannerInput.value = '';
+});
+
+themeChange.addEventListener('click', () => {
+    if (html.dataset.theme === "dark") {
+        html.dataset.theme = "light";
+        localStorage.setItem("theme", "light");
+        themeChange.textContent = "Dark theme"
+
+    } else {
+        html.dataset.theme = "dark";
+        localStorage.setItem("theme", "dark");
+        themeChange.textContent = "Light theme"
+    }
 });

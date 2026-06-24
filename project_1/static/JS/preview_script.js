@@ -7,6 +7,11 @@ const imageButton = document.getElementById('selectImageButton');
 const divSelector = document.querySelector('.ratio-selector'); 
 const deleteImgButton = document.getElementById('deleteImageButton');
 const textarea = document.getElementById('postText');
+const html = document.documentElement;
+
+html.dataset.theme = localStorage.getItem("theme") || "light";
+
+
 
 imageButton.addEventListener('click', () => {
     imageInput.click();

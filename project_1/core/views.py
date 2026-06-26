@@ -39,23 +39,71 @@ def home(request):
     user=request.user)
     
     preferred_categories = UserPreferredCategory.objects.filter(preferences=preferences)
-    preferred_categories_ids = preferred_categories.values_list('category_id',flat=True)
 
     top_categories = preferred_categories.order_by('-interest_score')[:3]
     top_category_ids = top_categories.values_list('category_id',flat=True)
-    top_posts = Post.objects.filter(categories__id__in =top_category_ids).distinct().order_by('?')[:18]
+
+    posts = []
+    selected_post_ids = set()
+
+    def add_posts(queryset, limit):
+        nonlocal posts, selected_post_ids
+        count = 0
+        for post in queryset:
+            if post.id not in selected_post_ids:
+                posts.append(post)
+                selected_post_ids.add(post.id)
+                count += 1
+            if count >= limit:
+                break
+
+    top_posts = Post.objects.filter(categories__id__in =top_category_ids).distinct().order_by('?')
+    add_posts(top_posts, 18)
 
     other_categories = preferred_categories.exclude(category__id__in=top_category_ids)
-    other_posts = Post.objects.filter(categories__id__in=other_categories.values_list('category_id',flat=True)).distinct().order_by('?')[:7]
 
-    random_posts = Post.objects.exclude(categories__id__in=preferred_categories_ids).distinct().order_by('?')[:5]
+    other_posts = Post.objects.filter(categories__id__in=other_categories.values_list('category_id', flat=True)).distinct().order_by('?')
+    add_posts(other_posts, 7)
 
-    posts = list(top_posts) + list(other_posts) + list(random_posts)
+    remaining = 30 - len(posts)
 
+    if remaining > 0:
+        random_posts = Post.objects.exclude(id__in=selected_post_ids).order_by('?')
+
+        for post in random_posts:
+            if post.id not in selected_post_ids:
+                posts.append(post)
+                selected_post_ids.add(post.id)
+
+            if len(posts) >= 30:
+                break
+            
     random.shuffle(posts)
 
     for post in posts:
         post.latest_comments = post.comments.order_by('-created_at')[:2]
+
+    print("Top catetorys:\n")
+    for category in top_categories:
+        print(category)
+        print(category.interest_score)
+    print("Others:\n")
+    for category in other_categories:
+        print(category)
+        print(category.interest_score)
+    print("Posts showed:\n")
+    for post in posts:
+        print("Post:", post.id)
+
+        for category in post.categories.all():
+            print(category)
+
+    print(f"Total is {len(posts)}")
+
+    ids = [post.id for post in posts]
+
+    print(f"Total posts: {len(ids)}")
+    print(f"Unique posts: {len(set(ids))}")
 
     return render(request, 'Main_Web_Page.html', {'user_profile': user_profile, 'posts':posts})
 

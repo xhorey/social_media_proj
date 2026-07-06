@@ -42,6 +42,11 @@ def home(request):
     
     preferred_categories = UserPreferredCategory.objects.filter(preferences=preferences)
 
+    preference_scores = {
+        pref.category_id: pref.interest_score
+        for pref in preferred_categories
+    }
+
     top_categories = preferred_categories.order_by('-interest_score')[:3]
     top_category_ids = top_categories.values_list('category_id',flat=True)
 
@@ -67,9 +72,7 @@ def home(request):
             category_score = 0
 
             for category in post.categories.all():
-                pref = preferred_categories.filter(category=category).first()
-                if pref:
-                    category_score += pref.interest_score
+                category_score += preference_scores.get(category.id, 0)
 
             max_interest = 100  
 
@@ -139,27 +142,29 @@ def home(request):
     for post in posts:
         post.latest_comments = post.comments.order_by('-created_at')[:2]
 
-    print("Top catetorys:\n")
-    for category in top_categories:
-        print(category)
-        print(category.interest_score)
-    print("Others:\n")
-    for category in other_categories:
-        print(category)
-        print(category.interest_score)
-    print("Posts showed:\n")
-    for post in posts:
-        print("Post:", post.id)
-        print("score:", post.score)
-        for category in post.categories.all():
-            print(category)
+    # print("Top catetorys:\n")
+    # for category in top_categories:
+    #     print(category)
+    #     print(category.interest_score)
+    # print("Others:\n")
+    # for category in other_categories:
+    #     print(category)
+    #     print(category.interest_score)
+    # print("Posts showed:\n")
+    # for post in posts:
+    #     print("Post:", post.id)
+    #     print("score:", post.score)
+    #     for category in post.categories.all():
+    #         print(category)
 
-    print(f"Total is {len(posts)}")
+    # print(f"Total is {len(posts)}")
 
-    ids = [post.id for post in posts]
+    # ids = [post.id for post in posts]
 
-    print(f"Total posts: {len(ids)}")
-    print(f"Unique posts: {len(set(ids))}")
+    # print(f"Total posts: {len(ids)}")
+    # print(f"Unique posts: {len(set(ids))}")
+
+
 
     return render(request, 'Main_Web_Page.html', {'user_profile': user_profile, 'posts':posts})
 

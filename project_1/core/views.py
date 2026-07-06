@@ -5,10 +5,12 @@ from .models import Profile, Post, LikePost,DislikePost, FollowersCount, Comment
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
+from django.db.models import Count
 from itertools import chain
 import json
-import re
 import random
+from django.utils import timezone
+import math
 
 def signin(request):
 
@@ -45,40 +47,94 @@ def home(request):
 
     posts = []
     selected_post_ids = set()
+    now = timezone.now()
 
-    def add_posts(queryset, limit):
+    def add_post(post):
         nonlocal posts, selected_post_ids
-        count = 0
-        for post in queryset:
-            if post.id not in selected_post_ids:
-                posts.append(post)
-                selected_post_ids.add(post.id)
-                count += 1
-            if count >= limit:
-                break
 
-    top_posts = Post.objects.filter(categories__id__in =top_category_ids).distinct().order_by('?')
-    add_posts(top_posts, 18)
+        if post.id not in selected_post_ids:
+            posts.append(post)
+            selected_post_ids.add(post.id)
+
+    def score_post(post, is_random):
+        hours_old = (now - post.created_at).total_seconds() / 3600
+        post_freshness = math.exp(-hours_old / 72)
+        likes_count = post.no_of_likes
+        comments_count = post.comment_count
+        reposts_count = post.no_of_reposts
+        popularity = math.log(likes_count + comments_count + reposts_count + 1)
+        if not is_random:
+            category_score = 0
+
+            for category in post.categories.all():
+                pref = preferred_categories.filter(category=category).first()
+                if pref:
+                    category_score += pref.interest_score
+
+            max_interest = 100  
+
+            category_score_norm = category_score / max_interest
+
+        popularity_norm = min(
+            popularity / math.log(1000 + 1),
+            1
+        )
+        if not is_random:
+
+            post.score = (
+                0.5 * category_score_norm +
+                0.3 * popularity_norm +
+                0.2 * post_freshness
+            )
+
+        else:
+
+            post.score = (
+                0.6 * popularity_norm +
+                0.4 * post_freshness
+            )
+
+        post.score *= random.uniform(0.98, 1.02)
+
+
+
+    top_posts = Post.objects.filter(categories__id__in =top_category_ids).distinct().annotate(comment_count=Count("comments"))
+    for post in top_posts:
+        score_post(post=post, is_random=False)
+
+
+    top_posts = sorted(top_posts, key=lambda post: post.score, reverse=True)
 
     other_categories = preferred_categories.exclude(category__id__in=top_category_ids)
 
-    other_posts = Post.objects.filter(categories__id__in=other_categories.values_list('category_id', flat=True)).distinct().order_by('?')
-    add_posts(other_posts, 7)
+    other_posts = Post.objects.filter(categories__id__in=other_categories.values_list('category_id', flat=True)).distinct().annotate(comment_count=Count("comments"))
 
-    remaining = 30 - len(posts)
+    for post in other_posts:
+        score_post(post=post, is_random=False)
 
-    if remaining > 0:
-        random_posts = Post.objects.exclude(id__in=selected_post_ids).order_by('?')
+    other_posts = sorted(other_posts, key=lambda post: post.score, reverse=True)
 
-        for post in random_posts:
-            if post.id not in selected_post_ids:
-                posts.append(post)
-                selected_post_ids.add(post.id)
+    random_posts = (Post.objects.exclude(categories__id__in=preferred_categories.values_list("category_id", flat=True)).distinct().annotate(comment_count=Count("comments")))
 
-            if len(posts) >= 30:
-                break
-            
-    random.shuffle(posts)
+    for post in random_posts:
+        score_post(post=post, is_random=True)
+
+    random_posts = sorted(random_posts, key=lambda post: post.score, reverse=True)
+
+    while len(posts)<30:
+        r = random.random()
+
+        if r < 0.60 and top_posts:
+            post = top_posts.pop(0)
+            add_post(post)
+        elif r < 0.83 and other_posts:
+            post = other_posts.pop(0)
+            add_post(post)
+        elif random_posts:
+            post = random_posts.pop(0)
+            add_post(post)
+        else:
+            break
 
     for post in posts:
         post.latest_comments = post.comments.order_by('-created_at')[:2]
@@ -94,7 +150,7 @@ def home(request):
     print("Posts showed:\n")
     for post in posts:
         print("Post:", post.id)
-
+        print("score:", post.score)
         for category in post.categories.all():
             print(category)
 

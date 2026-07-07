@@ -153,14 +153,33 @@ class UserPreferences(models.Model):
     
     categories = models.ManyToManyField(Category, through='UserPreferredCategory', blank=True)
 
+    last_decay = models.DateTimeField(default=timezone.now)
+
+    DECAY_RATE = 0.99
+
+    def call_decay(self):
+        now = timezone.now()
+        time_passed = now - self.last_decay
+        twelve_hours_passed = time_passed.total_seconds() / 3600 / 12
+        if twelve_hours_passed >= 1:
+            for preferred_category in self.preferred_categories.all():
+                preferred_category.interest_score *= self.DECAY_RATE ** twelve_hours_passed
+                if preferred_category.interest_score < 0.01:
+                    preferred_category.interest_score = 0
+                preferred_category.save()
+
+            self.last_decay = now
+            self.save()
+            
+
     def __str__(self):
         return f"{self.user.username}"
 
 class UserPreferredCategory(models.Model):
-    preferences = models.ForeignKey(UserPreferences, on_delete=models.CASCADE)
+    preferences = models.ForeignKey(UserPreferences, on_delete=models.CASCADE, related_name="preferred_categories")
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     
-    interest_score = models.IntegerField(default=0) 
+    interest_score = models.FloatField(default=0) 
     last_interacted = models.DateTimeField(auto_now=True)
 
     def __str__(self):

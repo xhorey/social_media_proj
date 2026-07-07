@@ -39,6 +39,10 @@ def home(request):
 
     preferences, created = UserPreferences.objects.get_or_create(
     user=request.user)
+
+    preferences.call_decay()
+
+    print("Decay date: ", preferences.last_decay)
     
     preferred_categories = UserPreferredCategory.objects.filter(preferences=preferences)
 

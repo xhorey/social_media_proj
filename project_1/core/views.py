@@ -41,8 +41,6 @@ def home(request):
     user=request.user)
 
     preferences.call_decay()
-
-    print("Decay date: ", preferences.last_decay)
     
     preferred_categories = UserPreferredCategory.objects.filter(preferences=preferences)
 
@@ -50,6 +48,18 @@ def home(request):
         pref.category_id: pref.interest_score
         for pref in preferred_categories
     }
+    max_category_score = 0
+    if preference_scores:
+
+        max_interest = max(preference_scores.values())
+
+        if max_interest > 0:
+            preference_scores = {
+                category_id: score / max_interest
+                for category_id, score in preference_scores.items()
+            }
+    
+            max_category_score = sum(preference_scores.values())
 
     top_categories = preferred_categories.order_by('-interest_score')[:3]
     top_category_ids = top_categories.values_list('category_id',flat=True)
@@ -78,9 +88,10 @@ def home(request):
             for category in post.categories.all():
                 category_score += preference_scores.get(category.id, 0)
 
-            max_interest = 100  
-
-            category_score_norm = category_score / max_interest
+            if max_category_score > 0:
+                category_score_norm = category_score / max_category_score
+            else:
+                category_score_norm = 0
 
         popularity_norm = min(
             popularity / math.log(1000 + 1),

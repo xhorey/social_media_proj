@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
 from django.db.models import Count
 from itertools import chain
+from collections import deque
 import json
 import random
 from django.utils import timezone
@@ -67,6 +68,7 @@ def home(request):
     posts = []
     selected_post_ids = set()
     now = timezone.now()
+    random_in_sequence = 0
 
     def add_post(post):
         nonlocal posts, selected_post_ids
@@ -123,6 +125,8 @@ def home(request):
 
     top_posts = sorted(top_posts, key=lambda post: post.score, reverse=True)
 
+    top_posts = deque(top_posts)
+
     other_categories = preferred_categories.exclude(category__id__in=top_category_ids)
 
     other_posts = Post.objects.filter(categories__id__in=other_categories.values_list('category_id', flat=True)).distinct().annotate(comment_count=Count("comments"))
@@ -132,6 +136,8 @@ def home(request):
 
     other_posts = sorted(other_posts, key=lambda post: post.score, reverse=True)
 
+    other_posts = deque(other_posts)
+
     random_posts = (Post.objects.exclude(categories__id__in=preferred_categories.values_list("category_id", flat=True)).distinct().annotate(comment_count=Count("comments")))
 
     for post in random_posts:
@@ -139,20 +145,65 @@ def home(request):
 
     random_posts = sorted(random_posts, key=lambda post: post.score, reverse=True)
 
+    random_posts = deque(random_posts)
+
     while len(posts)<30:
         r = random.random()
 
-        if r < 0.60 and top_posts:
-            post = top_posts.pop(0)
-            add_post(post)
-        elif r < 0.83 and other_posts:
-            post = other_posts.pop(0)
-            add_post(post)
-        elif random_posts:
-            post = random_posts.pop(0)
-            add_post(post)
+        if random_in_sequence <2:
+
+            if r < 0.60 and top_posts:
+                post = top_posts.popleft()
+                add_post(post)
+                random_in_sequence = 0
+            elif r < 0.83 and other_posts:
+                post = other_posts.popleft()
+                add_post(post)
+                random_in_sequence = 0
+            elif random_posts:
+                post = random_posts.popleft()
+                add_post(post)
+                random_in_sequence += 1
+            else:
+                if top_posts:
+                    post = top_posts.popleft()
+                    add_post(post)
+                    random_in_sequence = 0
+                elif other_posts:
+                    post = other_posts.popleft()
+                    add_post(post)
+                    random_in_sequence = 0
+                else:
+                    break
+
+                    
+
         else:
-            break
+            if r <= 0.70 and top_posts:
+                post = top_posts.popleft()
+                add_post(post)
+                random_in_sequence = 0
+            elif r > 0.70 and other_posts:
+                post = other_posts.popleft()
+                add_post(post)
+                random_in_sequence = 0
+            else:
+                if random_posts:
+                    post = random_posts.popleft()
+                    add_post(post)
+                    random_in_sequence += 1 
+                else:
+                    if top_posts:
+                        post = top_posts.popleft()
+                        add_post(post)
+                        random_in_sequence = 0
+                    elif other_posts:
+                        post = other_posts.popleft()
+                        add_post(post)
+                        random_in_sequence = 0
+                    else:
+                        break
+
 
     for post in posts:
         post.latest_comments = post.comments.order_by('-created_at')[:2]
@@ -174,10 +225,10 @@ def home(request):
 
     # print(f"Total is {len(posts)}")
 
-    # ids = [post.id for post in posts]
+    ids = [post.id for post in posts]
 
-    # print(f"Total posts: {len(ids)}")
-    # print(f"Unique posts: {len(set(ids))}")
+    print(f"Total posts: {len(ids)}")
+    print(f"Unique posts: {len(set(ids))}")
 
 
 

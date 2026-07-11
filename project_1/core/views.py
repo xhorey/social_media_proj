@@ -70,12 +70,46 @@ def home(request):
     now = timezone.now()
     random_in_sequence = 0
 
+    def can_add_post(post):
+        if post.id in selected_post_ids:
+            return False
+
+        if posts:
+            last_user = posts[-1].user
+
+            if post.user == last_user:
+
+                remaining_posts = list(top_posts) + list(other_posts) + list(random_posts)
+
+                has_other_user = any(
+                    p.user != last_user and p.id not in selected_post_ids
+                    for p in remaining_posts
+                )
+
+                if has_other_user:
+                    return False
+
+        return True
+
+    def get_valid_post(queue):
+        for post in list(queue):
+            if can_add_post(post):
+                if add_post(post):
+                    queue.remove(post)
+                
+                    return post
+
+        return None
+
     def add_post(post):
         nonlocal posts, selected_post_ids
 
-        if post.id not in selected_post_ids:
-            posts.append(post)
-            selected_post_ids.add(post.id)
+        if post.id in selected_post_ids:
+            return False
+
+        posts.append(post)
+        selected_post_ids.add(post.id)
+        return True
 
     def score_post(post, is_random):
         hours_old = (now - post.created_at).total_seconds() / 3600
@@ -147,32 +181,35 @@ def home(request):
 
     random_posts = deque(random_posts)
 
-    while len(posts)<30:
+    while len(posts)<30 and (top_posts or other_posts or random_posts):
         r = random.random()
 
         if random_in_sequence <2:
 
             if r < 0.60 and top_posts:
-                post = top_posts.popleft()
-                add_post(post)
-                random_in_sequence = 0
+                post = get_valid_post(top_posts)
+
+                if post:
+                    random_in_sequence = 0
+
             elif r < 0.83 and other_posts:
-                post = other_posts.popleft()
-                add_post(post)
-                random_in_sequence = 0
+                post = get_valid_post(other_posts)
+                if post:
+                    random_in_sequence = 0
+
             elif random_posts:
-                post = random_posts.popleft()
-                add_post(post)
-                random_in_sequence += 1
+                post = get_valid_post(random_posts)
+                if post:
+                    random_in_sequence += 1
             else:
                 if top_posts:
-                    post = top_posts.popleft()
-                    add_post(post)
-                    random_in_sequence = 0
+                    post = get_valid_post(top_posts)
+                    if post:
+                        random_in_sequence = 0
                 elif other_posts:
-                    post = other_posts.popleft()
-                    add_post(post)
-                    random_in_sequence = 0
+                    post = get_valid_post(other_posts)
+                    if post:
+                        random_in_sequence = 0
                 else:
                     break
 
@@ -180,27 +217,27 @@ def home(request):
 
         else:
             if r <= 0.70 and top_posts:
-                post = top_posts.popleft()
-                add_post(post)
-                random_in_sequence = 0
+                post = get_valid_post(top_posts)
+                if post:
+                    random_in_sequence = 0
             elif r > 0.70 and other_posts:
-                post = other_posts.popleft()
-                add_post(post)
-                random_in_sequence = 0
+                post = get_valid_post(other_posts)
+                if post:
+                    random_in_sequence = 0
             else:
                 if random_posts:
-                    post = random_posts.popleft()
-                    add_post(post)
-                    random_in_sequence += 1 
+                    post = get_valid_post(random_posts)
+                    if post:
+                        random_in_sequence += 1 
                 else:
                     if top_posts:
-                        post = top_posts.popleft()
-                        add_post(post)
-                        random_in_sequence = 0
+                        post = get_valid_post(top_posts)
+                        if post:
+                            random_in_sequence = 0
                     elif other_posts:
-                        post = other_posts.popleft()
-                        add_post(post)
-                        random_in_sequence = 0
+                        post = get_valid_post(other_posts)
+                        if post:
+                            random_in_sequence = 0
                     else:
                         break
 

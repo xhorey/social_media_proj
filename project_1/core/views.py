@@ -38,6 +38,11 @@ def signin(request):
 def home(request):
     user_profile = Profile.objects.get(user=request.user)
 
+    followed_users = set(
+        FollowersCount.objects.filter(follower=request.user)
+        .values_list("user_id", flat=True)
+    )
+
     preferences, created = UserPreferences.objects.get_or_create(
     user=request.user)
 
@@ -147,6 +152,11 @@ def home(request):
                 0.6 * popularity_norm +
                 0.4 * post_freshness
             )
+
+        author_id = post.user.id
+
+        if author_id in followed_users:
+            post.score *= 1.5
 
         post.score *= random.uniform(0.98, 1.02)
 

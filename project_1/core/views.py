@@ -5,7 +5,7 @@ from .models import Profile, Post, LikePost,DislikePost, FollowersCount, Comment
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
-from django.db.models import Count
+from django.db.models import Count, Prefetch
 from itertools import chain
 from collections import deque
 import json
@@ -74,6 +74,12 @@ def home(request):
     selected_post_ids = set()
     now = timezone.now()
     random_in_sequence = 0
+
+    latest_comments = Prefetch(
+        "comments",
+        queryset=Comment.objects.select_related("user").order_by("-created_at"),
+        to_attr="prefetched_comments",
+    )
 
     def can_add_post(post):
         if post.id in selected_post_ids:
@@ -162,7 +168,7 @@ def home(request):
 
 
 
-    top_posts = Post.objects.filter(categories__id__in =top_category_ids).distinct().annotate(comment_count=Count("comments"))
+    top_posts = Post.objects.filter(categories__id__in =top_category_ids).distinct().annotate(comment_count=Count("comments")).select_related("user").prefetch_related("categories",  latest_comments)
     for post in top_posts:
         score_post(post=post, is_random=False)
 
@@ -173,7 +179,7 @@ def home(request):
 
     other_categories = preferred_categories.exclude(category__id__in=top_category_ids)
 
-    other_posts = Post.objects.filter(categories__id__in=other_categories.values_list('category_id', flat=True)).distinct().annotate(comment_count=Count("comments"))
+    other_posts = Post.objects.filter(categories__id__in=other_categories.values_list('category_id', flat=True)).distinct().annotate(comment_count=Count("comments")).select_related("user").prefetch_related("categories",  latest_comments)
 
     for post in other_posts:
         score_post(post=post, is_random=False)
@@ -182,7 +188,7 @@ def home(request):
 
     other_posts = deque(other_posts)
 
-    random_posts = (Post.objects.exclude(categories__id__in=preferred_categories.values_list("category_id", flat=True)).distinct().annotate(comment_count=Count("comments")))
+    random_posts = (Post.objects.exclude(categories__id__in=preferred_categories.values_list("category_id", flat=True)).distinct().annotate(comment_count=Count("comments"))).select_related("user").prefetch_related("categories",  latest_comments)
 
     for post in random_posts:
         score_post(post=post, is_random=True)
@@ -253,7 +259,7 @@ def home(request):
 
 
     for post in posts:
-        post.latest_comments = post.comments.order_by('-created_at')[:2]
+        post.latest_comments = post.prefetched_comments[:2]
 
     # print("Top catetorys:\n")
     # for category in top_categories:

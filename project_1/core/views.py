@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
 from django.db.models import Count, Prefetch
+from uuid import UUID
 from itertools import chain
 from collections import deque
 import json
@@ -70,6 +71,10 @@ def home(request):
     top_categories = preferred_categories.order_by('-interest_score')[:3]
     top_category_ids = top_categories.values_list('category_id',flat=True)
 
+    other_categories = preferred_categories.exclude(category__id__in=top_category_ids)
+
+    print("Categories have been selected.")
+
     posts = []
     selected_post_ids = set()
     now = timezone.now()
@@ -90,10 +95,10 @@ def home(request):
 
             if post.user == last_user:
 
-                remaining_posts = list(top_posts) + list(other_posts) + list(random_posts)
+                remaining_posts = (list(top_posts) + list(other_posts) + list(random_posts))
 
                 has_other_user = any(
-                    p.user != last_user and p.id not in selected_post_ids
+                    p.user.id != last_user.id and p.id not in selected_post_ids
                     for p in remaining_posts
                 )
 
@@ -166,7 +171,161 @@ def home(request):
 
         post.score *= random.uniform(0.98, 1.02)
 
+    print("Functions initialized.")
 
+    if request.method == 'POST':
+
+        body = json.loads(request.body)
+
+        loaded_posts = body.get("loaded_posts", [])
+
+        loaded_posts = [UUID(x) for x in loaded_posts]
+
+        top_posts = (
+            Post.objects
+            .exclude(id__in=loaded_posts)
+            .filter(categories__id__in=top_category_ids)
+        )
+        for post in top_posts:
+            score_post(post=post, is_random=False)
+        top_posts = sorted(top_posts, key=lambda post: post.score, reverse=True)
+        top_posts = deque(top_posts)
+        other_posts = Post.objects.exclude(id__in=loaded_posts).filter(categories__id__in=other_categories.values_list('category_id', flat=True)).distinct().annotate(comment_count=Count("comments")).select_related("user").prefetch_related("categories",  latest_comments)
+        for post in other_posts:
+            score_post(post=post, is_random=False)
+
+        other_posts = sorted(other_posts, key=lambda post: post.score, reverse=True)
+
+        other_posts = deque(other_posts)
+        random_posts = (Post.objects.exclude(id__in=loaded_posts).exclude(categories__id__in=preferred_categories.values_list("category_id", flat=True)).distinct().annotate(comment_count=Count("comments"))).select_related("user").prefetch_related("categories",  latest_comments)
+
+        for post in random_posts:
+            score_post(post=post, is_random=True)
+
+        random_posts = sorted(random_posts, key=lambda post: post.score, reverse=True)
+
+        random_posts = deque(random_posts)
+
+        while len(posts)<30 and (top_posts or other_posts or random_posts):
+            r = random.random()
+
+            if random_in_sequence <2:
+
+                if r < 0.60 and top_posts:
+                    post = get_valid_post(top_posts)
+
+                    if post:
+                        random_in_sequence = 0
+
+                elif r < 0.83 and other_posts:
+                    post = get_valid_post(other_posts)
+                    if post:
+                        random_in_sequence = 0
+
+                elif random_posts:
+                    post = get_valid_post(random_posts)
+                    if post:
+                        random_in_sequence += 1
+                else:
+                    if top_posts:
+                        post = get_valid_post(top_posts)
+                        if post:
+                            random_in_sequence = 0
+                    elif other_posts:
+                        post = get_valid_post(other_posts)
+                        if post:
+                            random_in_sequence = 0
+                    else:
+                        break
+
+                        
+
+            else:
+                if r <= 0.70 and top_posts:
+                    post = get_valid_post(top_posts)
+                    if post:
+                        random_in_sequence = 0
+                    else:
+                        print(f"Didn't get the post, trying other. remains:{len(other_posts)}")
+                        post = get_valid_post(other_posts)
+                        if post:
+                            print("Got other post succesfully")
+                            random_in_sequence = 0
+                        else:
+                            print(f"Failed to get any post. Remaining options: {len(other_posts) + len(top_posts) + len(random_posts)}\nForced random post...")
+                            post = get_valid_post(random_posts)
+                            if post:
+                                print("Got forced random succesfully!")
+                elif r > 0.70 and other_posts:
+                    post = get_valid_post(other_posts)
+                    if post:
+                        random_in_sequence = 0
+                    else:
+                        print("Didn't get the post, trying top")
+                        post = get_valid_post(top_posts)
+                        if post:
+                            print("Got top post succesfully")
+                            random_in_sequence = 0
+                        else:
+                            print(f"Failed to get any post. Remaining options: {len(other_posts) + len(top_posts) + len(random_posts)}\n Forced random...")
+                            post = get_valid_post(random_posts)
+                            if post:
+                                print("Got forced random succesfully!")
+                else:
+                    if random_posts:
+                        post = get_valid_post(random_posts)
+                        if post:
+                            random_in_sequence += 1 
+                    else:
+                        if top_posts:
+                            post = get_valid_post(top_posts)
+                            if post:
+                                random_in_sequence = 0
+                        elif other_posts:
+                            post = get_valid_post(other_posts)
+                            if post:
+                                random_in_sequence = 0
+                        else:
+                            break
+
+
+        for post in posts:
+            post.latest_comments = post.prefetched_comments[:2]
+
+        ids = [post.id for post in posts]
+
+        print(f"Total posts: {len(ids)}")
+        print(f"Unique posts: {len(set(ids))}")
+
+        return JsonResponse({
+            "posts": [
+                {
+                    "id": str(post.id),
+                    "username": post.user.username,
+                    "profile": post.user.profile.profileimg.url,
+                    "text": post.text_of_post,
+                    "likes": post.no_of_likes,
+                    "dislikes": post.no_of_dislikes,
+                    "created": post.created_at.isoformat(),
+                    "aspect_ratio": post.aspect_ratio,
+                    "image_url": post.image.url if post.image else None,
+                    "reposts": post.no_of_reposts,
+                    "comments": [
+                        {
+                            "username": comment.user.username,
+                            "profile": comment.user.profile.profileimg.url,
+                            "text": comment.comment_text,
+                        }
+                        for comment in post.latest_comments
+                    ],
+                    "is_owner": post.user == request.user,
+
+                }
+                for post in posts
+            ]
+        })
+
+    print("If POST has been passed.")
 
     top_posts = Post.objects.filter(categories__id__in =top_category_ids).distinct().annotate(comment_count=Count("comments")).select_related("user").prefetch_related("categories",  latest_comments)
     for post in top_posts:
@@ -176,8 +335,6 @@ def home(request):
     top_posts = sorted(top_posts, key=lambda post: post.score, reverse=True)
 
     top_posts = deque(top_posts)
-
-    other_categories = preferred_categories.exclude(category__id__in=top_category_ids)
 
     other_posts = Post.objects.filter(categories__id__in=other_categories.values_list('category_id', flat=True)).distinct().annotate(comment_count=Count("comments")).select_related("user").prefetch_related("categories",  latest_comments)
 
@@ -197,34 +354,82 @@ def home(request):
 
     random_posts = deque(random_posts)
 
+    print("Buckets created.")
+
+    print("Starting loop.")
+
     while len(posts)<30 and (top_posts or other_posts or random_posts):
         r = random.random()
 
         if random_in_sequence <2:
 
+            print("Random is < 2")
+
             if r < 0.60 and top_posts:
+                print("Trying to get top post")
                 post = get_valid_post(top_posts)
 
                 if post:
+                    print("Got top post succesfully")
                     random_in_sequence = 0
+                else:
+                    print("Didn't get the top, trying other...")
+                    post = get_valid_post(other_posts)
+                    if post:
+                        print("Got other post succesfully")
+                        random_in_sequence = 0
+                    else:
+                        print("Didn't get other post. Forced random...")
+                        post = get_valid_post(random_posts)
+                        if post:
+                            print("Succes")
+                        else:
+                            print("FAILED. CRITICAL.")
+
 
             elif r < 0.83 and other_posts:
+                print("Trying to get other post")
                 post = get_valid_post(other_posts)
                 if post:
+                    print("Got other post succesfully")
                     random_in_sequence = 0
+                else:
+                    print("Didn't get the other, trying top...")
+                    post = get_valid_post(top_posts)
+                    if post:
+                        print("Got top post succesfully")
+                        random_in_sequence = 0
+                    else:
+                        print("Didn't get top post. Forced random...")
+                        post = get_valid_post(random_posts)
+                        if post:
+                            print("Succes")
+                        else:
+                            print("FAILED. CRITICAL.")
+
+                
 
             elif random_posts:
+                print("Trying to get random post")
                 post = get_valid_post(random_posts)
                 if post:
+                    print("Got random post succesfully")
                     random_in_sequence += 1
             else:
                 if top_posts:
+                    print("Trying to get top post")
                     post = get_valid_post(top_posts)
                     if post:
+                        print("Got top post succesfully")
                         random_in_sequence = 0
+                    else:
+                        print("Failed")
+                        pass
                 elif other_posts:
+                    print("Trying to get other post")
                     post = get_valid_post(other_posts)
                     if post:
+                        print("Got other post succesfully")
                         random_in_sequence = 0
                 else:
                     break
@@ -232,31 +437,56 @@ def home(request):
                     
 
         else:
+            print("two randoms in a row")
             if r <= 0.70 and top_posts:
+                print(f"Trying to get top post. remains:{len(top_posts)}")
                 post = get_valid_post(top_posts)
                 if post:
+                    print("Got top post succesfully")
                     random_in_sequence = 0
+                else:
+                    print(f"Didn't get the post, trying other. remains:{len(other_posts)}")
+                    post = get_valid_post(other_posts)
+                    if post:
+                        print("Got other post succesfully")
+                        random_in_sequence = 0
+                    else:
+                        print(f"Failed to get any post. Remaining options: {len(other_posts) + len(top_posts) + len(random_posts)}\nForced random post...")
+                        post = get_valid_post(random_posts)
+                        if post:
+                            print("Got forced random succesfully!")
+
             elif r > 0.70 and other_posts:
+                print("Trying to get other post")
                 post = get_valid_post(other_posts)
                 if post:
+                    print("Got other post succesfully")
                     random_in_sequence = 0
+                else:
+                    print("Didn't get the post, trying top")
+                    post = get_valid_post(top_posts)
+                    if post:
+                        print("Got top post succesfully")
+                        random_in_sequence = 0
+                    else:
+                        print(f"Failed to get any post. Remaining options: {len(other_posts) + len(top_posts) + len(random_posts)}\n Forced random...")
+                        post = get_valid_post(random_posts)
+                        if post:
+                            print("Got forced random succesfully!")
             else:
+                print("Only random posts available")
                 if random_posts:
+                    print("Trying to get random post")
                     post = get_valid_post(random_posts)
                     if post:
+                        print("Got random post succesfully")
                         random_in_sequence += 1 
                 else:
-                    if top_posts:
-                        post = get_valid_post(top_posts)
-                        if post:
-                            random_in_sequence = 0
-                    elif other_posts:
-                        post = get_valid_post(other_posts)
-                        if post:
-                            random_in_sequence = 0
-                    else:
-                        break
+                    print(f"Got all posts remains: {len(other_posts) + len(top_posts) + len(random_posts)}")
+                    break
 
+    
+    print("Loop escaped.")
 
     for post in posts:
         post.latest_comments = post.prefetched_comments[:2]
@@ -282,6 +512,18 @@ def home(request):
 
     print(f"Total posts: {len(ids)}")
     print(f"Unique posts: {len(set(ids))}")
+
+    print("FINAL SELECTED:", len(posts))
+    print("TOP REMAINING:", len(top_posts))
+    print("OTHER REMAINING:", len(other_posts))
+    print("RANDOM REMAINING:", len(random_posts))
+
+    all_remaining = list(top_posts) + list(other_posts) + list(random_posts)
+
+    print(
+        "UNSELECTED REMAINING:",
+        sum(1 for p in all_remaining if p.id not in selected_post_ids)
+    )
 
 
 

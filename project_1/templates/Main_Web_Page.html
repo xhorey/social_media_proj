@@ -52,7 +52,7 @@
     </div>
     <div class="content">
         {% for post in posts %}
-         <div class="posts">
+         <div class="posts" data-post-id="{{ post.id }}">
             <div class="post_header">
                 <a class="user_info" href="/profile/{{post.user}}">
                     <img id="pp" src="{{post.user.profile.profileimg.url}}" alt="Profile Icon">
@@ -111,6 +111,11 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="more_content_div">
+        <button class="load_more_btn">
+            Load more
+        </button>
     </div>
     <script src="{% static 'JS/like_dislike_fetch.js'%}"></script>
     <script src="{% static 'JS/comment_fetch.js'%}"></script>

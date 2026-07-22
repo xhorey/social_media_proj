@@ -453,3 +453,26 @@ a {
 .posts_w_hashtag{
     margin-right: 10px;
 }
+
+.more_content_div{
+    display: flex;
+    justify-content: center;
+
+}
+
+.load_more_btn{
+    background-color: var(--buttons);
+    color: white;
+    border: none;
+    padding: 0.7em 1.5em;
+    border-radius: 999px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.load_more_btn:hover{
+    background-color: #0572c0;
+    transition: background-color 0.3s ease;
+}

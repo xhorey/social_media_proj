@@ -138,8 +138,16 @@ class Comment(models.Model):
 
     
 class KeyWord(models.Model):
-    word = models.CharField(max_length=100, unique=True, db_index=True)
+    word = models.CharField(max_length=100, db_index=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="keywords")
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["word", "category"],
+                name="unique_keyword_per_category"
+            )
+        ]
 
     def save(self, *args, **kwargs):
         self.word = self.word.lower()

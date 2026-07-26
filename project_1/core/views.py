@@ -167,7 +167,7 @@ def home(request):
         author_id = post.user.id
 
         if author_id in followed_users:
-            post.score *= 1.5
+            post.score *= 2
 
         post.score *= random.uniform(0.98, 1.02)
 
@@ -183,21 +183,21 @@ def home(request):
 
         top_posts = (
             Post.objects
-            .exclude(id__in=loaded_posts)
+            .exclude(id__in=loaded_posts).exclude(user = request.user)
             .filter(categories__id__in=top_category_ids)
         )
         for post in top_posts:
             score_post(post=post, is_random=False)
         top_posts = sorted(top_posts, key=lambda post: post.score, reverse=True)
         top_posts = deque(top_posts)
-        other_posts = Post.objects.exclude(id__in=loaded_posts).filter(categories__id__in=other_categories.values_list('category_id', flat=True)).distinct().annotate(comment_count=Count("comments")).select_related("user").prefetch_related("categories",  latest_comments)
+        other_posts = Post.objects.exclude(id__in=loaded_posts).exclude(user = request.user).filter(categories__id__in=other_categories.values_list('category_id', flat=True)).distinct().annotate(comment_count=Count("comments")).select_related("user").prefetch_related("categories",  latest_comments)
         for post in other_posts:
             score_post(post=post, is_random=False)
 
         other_posts = sorted(other_posts, key=lambda post: post.score, reverse=True)
 
         other_posts = deque(other_posts)
-        random_posts = (Post.objects.exclude(id__in=loaded_posts).exclude(categories__id__in=preferred_categories.values_list("category_id", flat=True)).distinct().annotate(comment_count=Count("comments"))).select_related("user").prefetch_related("categories",  latest_comments)
+        random_posts = (Post.objects.exclude(id__in=loaded_posts).exclude(categories__id__in=preferred_categories.values_list("category_id", flat=True)).exclude(user = request.user).distinct().annotate(comment_count=Count("comments"))).select_related("user").prefetch_related("categories",  latest_comments)
 
         for post in random_posts:
             score_post(post=post, is_random=True)
@@ -327,7 +327,7 @@ def home(request):
 
     print("If POST has been passed.")
 
-    top_posts = Post.objects.filter(categories__id__in =top_category_ids).distinct().annotate(comment_count=Count("comments")).select_related("user").prefetch_related("categories",  latest_comments)
+    top_posts = Post.objects.exclude(user = request.user).filter(categories__id__in =top_category_ids).distinct().annotate(comment_count=Count("comments")).select_related("user").prefetch_related("categories",  latest_comments)
     for post in top_posts:
         score_post(post=post, is_random=False)
 
@@ -336,7 +336,7 @@ def home(request):
 
     top_posts = deque(top_posts)
 
-    other_posts = Post.objects.filter(categories__id__in=other_categories.values_list('category_id', flat=True)).distinct().annotate(comment_count=Count("comments")).select_related("user").prefetch_related("categories",  latest_comments)
+    other_posts = Post.objects.exclude(user = request.user).filter(categories__id__in=other_categories.values_list('category_id', flat=True)).distinct().annotate(comment_count=Count("comments")).select_related("user").prefetch_related("categories",  latest_comments)
 
     for post in other_posts:
         score_post(post=post, is_random=False)
@@ -345,7 +345,7 @@ def home(request):
 
     other_posts = deque(other_posts)
 
-    random_posts = (Post.objects.exclude(categories__id__in=preferred_categories.values_list("category_id", flat=True)).distinct().annotate(comment_count=Count("comments"))).select_related("user").prefetch_related("categories",  latest_comments)
+    random_posts = (Post.objects.exclude(categories__id__in=preferred_categories.values_list("category_id", flat=True)).exclude(user = request.user).distinct().annotate(comment_count=Count("comments"))).select_related("user").prefetch_related("categories",  latest_comments)
 
     for post in random_posts:
         score_post(post=post, is_random=True)

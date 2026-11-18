@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-App<exercises>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "database2.lab7.App",
+            "projectName": "exercises",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

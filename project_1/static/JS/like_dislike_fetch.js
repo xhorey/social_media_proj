@@ -65,5 +65,44 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
+        if (e.target.closest('.allComments_btn:not(.close_comments_btn)')) {
+
+            const button = e.target.closest('.allComments_btn');
+            const postId = button.dataset.postId;
+
+            fetch('/show_comments/', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrftokenLike
+                },
+                body: JSON.stringify({
+                    post_id: postId
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                const commentSection = document.querySelector('.comment_section_toggle');
+
+                if (!commentSection) {
+                    console.error("Comments modal not found!");
+                    return;
+                }
+
+                commentSection.style.display = "flex";
+                document.body.classList.add('modal-open');
+            });
+        }
+
+        if (e.target.closest('.close_comments_btn')) {
+
+            const commentSection = document.querySelector('.comment_section_toggle');
+
+            if (!commentSection) return;
+
+            commentSection.style.display = "none";
+            document.body.classList.remove('modal-open');
+        }
     });
 });

@@ -18,4 +18,5 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('repost/', views.repost, name='repost'),
     path('delete_post/', views.delete_post, name='delete_post'),
+    path('show_comments/', views.show_comments, name='show_comments'),
 ]

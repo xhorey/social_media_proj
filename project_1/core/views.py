@@ -599,6 +599,11 @@ def delete_post(request):
             "success": True
         })
 
+@login_required(login_url='signin')
+def show_comments(request):
+    return JsonResponse({
+            "status": "you suck"
+        })
         
 
 

@@ -1,0 +1,54 @@
+* {
+  font-family: 'Pokemon Solid', sans-serif;
+}
+
+h1 {
+  text-align: center;
+  font-weight: 200;
+  color: rgb(255, 238, 0);
+  -webkit-text-stroke: 2px darkblue;
+}
+
+#main {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0.5em;
+  padding: 0.5em;
+  justify-content: space-around;
+}
+
+#pokemons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 5px;
+}
+
+.square {
+  border: groove 5px teal;
+  border-radius: 5px;
+  min-width: 25vw;
+  min-height: 25vw;
+  width: 40vw;
+  height: 40vw;
+  background-color: aquamarine;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+.square img {
+  width: 80%;
+  height: 80%;
+}
+
+.square button {
+  font-size: 32pt;
+}
+
+.square.small {
+  min-width: 5vw;
+  min-height: 5vw;
+  width: 15vw;
+  height: 15vw;
+}

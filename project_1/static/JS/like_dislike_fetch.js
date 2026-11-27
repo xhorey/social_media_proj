@@ -83,12 +83,60 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(res => res.json())
             .then(data => {
 
-                const commentSection = document.querySelector('.comment_section_toggle');
+                console.log("Comments:", data);
 
-                if (!commentSection) {
+                const commentSection = document.querySelector('.comment_section_toggle');
+                const commentsContainer = commentSection.querySelector('.all_comments');
+
+
+                if (!commentSection || !commentsContainer) {
                     console.error("Comments modal not found!");
                     return;
                 }
+
+                commentsContainer.innerHTML = "";
+
+                if (data.comments.length === 0) {
+                    commentsContainer.textContent = "No comments yet.";
+                }
+
+                data.comments.forEach(comment => {
+
+                    const commentElement = document.createElement('div');
+                    commentElement.classList.add('comment');
+
+                    const profileImage = document.createElement('img');
+                    profileImage.src = comment.profile_image;
+                    profileImage.alt = "Profile picture";
+                    profileImage.id = `pp_comment`;
+
+                    const username = document.createElement('p');
+                    username.textContent = "@" + comment.username;
+                    username.classList.add('comment_username');
+
+                    const commentText = document.createElement('span');
+                    commentText.textContent = comment.text;
+                    username.classList.add('comment_text');
+
+                    const textBox = document.createElement('div');
+                    textBox.classList.add('text_of_comment');
+
+                    const ppLink = document.createElement('a');
+                    ppLink.href = `/profile/${comment.username}`;
+
+                    const nickLink = document.createElement('a');
+                    nickLink.href = `/profile/${comment.username}`;
+
+                    commentElement.appendChild(ppLink);
+                    textBox.appendChild(nickLink);
+                    textBox.appendChild(commentText);
+                    commentElement.appendChild(textBox);
+                    ppLink.appendChild(profileImage);
+                    nickLink.appendChild(username);
+
+                    commentsContainer.appendChild(commentElement);
+                });
+
 
                 commentSection.style.display = "flex";
                 document.body.classList.add('modal-open');

@@ -601,9 +601,31 @@ def delete_post(request):
 
 @login_required(login_url='signin')
 def show_comments(request):
+
+    data = json.loads(request.body)
+    post_id = data.get('post_id')
+
+    post = get_object_or_404(Post, id=post_id)
+
+    comments = Comment.objects.filter(post = post).select_related(
+        'user', 'user__profile'
+    ).order_by(
+        '-created_at'
+    )[:20]
+
+
     return JsonResponse({
-            "status": "you suck"
-        })
+        "comments": [
+            {
+                "username": comment.user.username,
+                "profile_image": comment.user.profile.profileimg.url,
+                "text": comment.comment_text,
+                "created": comment.created_at.isoformat(),
+            }
+            for comment in comments
+        ],
+        "has_more": post.comments.count() > 20
+    })
         
 
 
